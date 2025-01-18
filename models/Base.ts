@@ -14,8 +14,8 @@ const API_Host = isServer()
     : 'http://localhost:3000'
   : globalThis.location.origin;
 
-export const ownClient = new HTTPClient({
-  baseURI: `${API_Host}/api/`,
+export const larkClient = new HTTPClient({
+  baseURI: `${API_Host}/api/Lark/`,
   responseType: 'json',
 });
 
@@ -38,7 +38,7 @@ export async function upload(file: Blob) {
   const form = new FormData();
   form.append('file', file);
 
-  const { body } = await ownClient.post<UploadedFile>(
+  const { body } = await larkClient.post<UploadedFile>(
     'https://api.escuelajs.co/api/v1/files/upload',
     form,
   );

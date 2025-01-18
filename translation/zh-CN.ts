@@ -40,4 +40,8 @@ export default {
 
   // MDX Article
   article: '文章',
+
+  // Search
+  keywords: '关键词',
+  search_results: '搜索结果',
 } as const;

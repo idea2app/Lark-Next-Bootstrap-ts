@@ -4,7 +4,7 @@ import type { NextPage } from 'next';
 import type { ErrorProps } from 'next/error';
 import Error from 'next/error';
 
-import { NotFoundCard } from '../components/NotFoundCard';
+import { NotFoundCard } from '../components/Layout/NotFoundCard';
 import { i18n } from '../models/Translation';
 
 const CustomErrorComponent: NextPage<ErrorProps> = props => (

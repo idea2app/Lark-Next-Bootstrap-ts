@@ -42,4 +42,8 @@ export default {
 
   // MDX Article
   article: 'Article',
+
+  // Search
+  keywords: 'Keywords',
+  search_results: 'Search Results',
 } as const;

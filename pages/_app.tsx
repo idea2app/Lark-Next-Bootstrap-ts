@@ -8,8 +8,8 @@ import Head from 'next/head';
 import { FC } from 'react';
 import { Image } from 'react-bootstrap';
 
-import { MainNavigator } from '../components/MainNavigator';
-import { MDXLayout } from '../components/MDXLayout';
+import { MDXLayout } from '../components/Layout/MDXLayout';
+import { MainNavigator } from '../components/Navigator/MainNavigator';
 import { isServer } from '../models/Base';
 import { t } from '../models/Translation';
 
@@ -39,7 +39,7 @@ const AppShell: FC<AppProps> = observer(({ Component, pageProps, router }) => (
         <Component {...pageProps} />
       </MDXLayout>
     ) : (
-      <div className="mt-5 pt-4">
+      <div className="mt-5">
         <Component {...pageProps} />
       </div>
     )}

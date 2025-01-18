@@ -1,7 +1,7 @@
 import { ErrorProps } from 'next/error';
 import { FC } from 'react';
 
-import { i18n } from '../models/Translation';
+import { i18n } from '../../models/Translation';
 
 export const NotFoundCard: FC<ErrorProps> = ({ title }) =>
   i18n.currentLanguage.startsWith('zh') ? (

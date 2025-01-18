@@ -7,7 +7,7 @@ import { compose, translator } from 'next-ssr-middleware';
 import { Component } from 'react';
 import { Badge, Container } from 'react-bootstrap';
 
-import { PageHead } from '../components/PageHead';
+import { PageHead } from '../components/Layout/PageHead';
 import { repositoryStore } from '../models/Base';
 import { i18n, t } from '../models/Translation';
 

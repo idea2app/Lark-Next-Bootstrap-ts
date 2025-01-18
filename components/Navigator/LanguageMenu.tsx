@@ -2,7 +2,7 @@ import { Option, Select } from 'idea-react';
 import { observer } from 'mobx-react';
 import { FC } from 'react';
 
-import { i18n, LanguageName } from '../models/Translation';
+import { i18n, LanguageName } from '../../models/Translation';
 
 const LanguageMenu: FC = observer(() => {
   const { currentLanguage } = i18n;

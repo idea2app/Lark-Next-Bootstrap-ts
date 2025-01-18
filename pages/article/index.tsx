@@ -2,7 +2,7 @@ import { observer } from 'mobx-react';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { FC } from 'react';
 
-import { MDXLayout } from '../../components/MDXLayout';
+import { MDXLayout } from '../../components/Layout/MDXLayout';
 import { i18n } from '../../models/Translation';
 
 interface ArticleMeta {
