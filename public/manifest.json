@@ -1,8 +1,8 @@
 {
-  "name": "lark-next-bootstrap-ts scaffold",
+  "name": "Lark-Next-Bootstrap-ts scaffold",
   "short_name": "Next.ts demo",
   "start_url": ".",
-  "description": "React project scaffold based on TypeScript, Next.js, Bootstrap & Workbox.",
+  "description": "Lark project scaffold based on TypeScript, React, Next.js, Bootstrap & Workbox.",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",

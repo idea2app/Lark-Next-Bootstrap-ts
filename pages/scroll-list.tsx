@@ -7,7 +7,7 @@ import { FC } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import { GitCard } from '../components/Git/Card';
-import { PageHead } from '../components/PageHead';
+import { PageHead } from '../components/Layout/PageHead';
 import { repositoryStore } from '../models/Base';
 import { i18n } from '../models/Translation';
 
