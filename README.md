@@ -27,6 +27,11 @@
    - Global: https://notfound.org/
    - Chinese: https://www.dnpw.org/cn/pa-notfound.html
 
+## User cases
+
+1. https://github.com/kaiyuanshe/kaiyuanshe.github.io
+2. https://github.com/idea2app/idea2app.github.io
+
 ## Best practice
 
 1.  Install GitHub apps in your organization or account:
@@ -38,13 +43,11 @@
 
 3.  Click the **[<kbd>Open in GitHub codespaces</kbd>][8] button** on the top of ReadMe file, then an **online VS Code development environment** will be started immediately
 
-4.  Set [Vercel variables][19] as [Repository secrets][20], then every commit will get an independent **Preview URL**
+4.  Set [Vercel variables][19] & [Lark chat bot URL][20] as [Repository secrets][21], then every commit will send a Lark message with an independent **Preview URL**
 
-5.  Recommend to add a [Notification step in GitHub actions][21] for your Team IM app
+5.  Remind the PMs & users of your product to submit **Feature/Enhancement** requests or **Bug** reports with [Issue forms][22] instead of IM messages or Mobile Phone calls
 
-6.  Remind the PMs & users of your product to submit **Feature/Enhancement** requests or **Bug** reports with [Issue forms][22] instead of IM messages or Mobile Phone calls
-
-7.  Collect all these issues into [Project kanbans][23], then create **Pull requests** & add `closes #issue_number` into its description for automation
+6.  Collect all these issues into [Project kanbans][23], then create **Pull requests** & add `closes #issue_number` into its description for automation
 
 ## Getting Started
 
@@ -76,18 +79,21 @@ You can check out [the Next.js GitHub repository][27] - your feedback and contri
 
 ### Environment variables
 
-|           name           |     file     |       description       |
-| :----------------------: | :----------: | :---------------------: |
-|   `SENTRY_AUTH_TOKEN`    | `.env.local` | [Official document][28] |
-|       `SENTRY_ORG`       |    `.env`    | [Official document][29] |
-|     `SENTRY_PROJECT`     |    `.env`    | [Official document][29] |
-| `NEXT_PUBLIC_SENTRY_DSN` |    `.env`    | [Official document][30] |
+|           name           |     file     |        description        |
+| :----------------------: | :----------: | :-----------------------: |
+|   `SENTRY_AUTH_TOKEN`    | `.env.local` |  [Official document][28]  |
+|       `SENTRY_ORG`       |    `.env`    |  [Official document][29]  |
+|     `SENTRY_PROJECT`     |    `.env`    |  [Official document][29]  |
+| `NEXT_PUBLIC_SENTRY_DSN` |    `.env`    |  [Official document][30]  |
+|      `LARK_APP_ID`       | `.env.local` |  [Official document][31]  |
+|    `LARK_APP_SECRET`     | `.env.local` |  [Official document][31]  |
+| `NEXT_PUBLIC_CACHE_HOST` |    `.env`    | Static files CDN for Lark |
 
 ### Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform][13] from the creators of Next.js.
 
-Check out our [Next.js deployment documentation][31] for more details.
+Check out our [Next.js deployment documentation][32] for more details.
 
 ### Docker
 
@@ -116,8 +122,8 @@ pnpm container
 [17]: https://code.visualstudio.com/
 [18]: https://github.com/new?template_name=Lark-Next-Bootstrap-ts&template_owner=idea2app
 [19]: https://github.com/idea2app/lark-Lark-Next-Bootstrap-ts/blob/80967ed49045af9dbcf4d3695a2c39d53a6f71f1/.github/workflows/pull-request.yml#L9-L11
-[20]: https://github.com/idea2app/lark-Lark-Next-Bootstrap-ts/settings/secrets/actions
-[21]: https://github.com/kaiyuanshe/kaiyuanshe.github.io/blob/bb4675a56bf1d6b207231313da5ed0af7cf0ebd6/.github/workflows/pull-request.yml#L32-L56
+[20]: https://github.com/kaiyuanshe/kaiyuanshe.github.io/blob/bb4675a56bf1d6b207231313da5ed0af7cf0ebd6/.github/workflows/pull-request.yml#L32-L56
+[21]: https://github.com/idea2app/lark-Lark-Next-Bootstrap-ts/settings/secrets/actions
 [22]: https://github.com/idea2app/lark-Lark-Next-Bootstrap-ts/issues/new/choose
 [23]: https://github.com/idea2app/lark-Lark-Next-Bootstrap-ts/projects
 [24]: https://nextjs.org/docs/api-routes/introduction
@@ -127,4 +133,5 @@ pnpm container
 [28]: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-configuration-files-for-source-map-upload
 [29]: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-environment-variables
 [30]: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#create-initialization-config-files
-[31]: https://nextjs.org/docs/deployment
+[31]: https://open.larksuite.com/document/server-docs/getting-started/api-access-token/app-access-token-development-guide#1f8b587c
+[32]: https://nextjs.org/docs/deployment

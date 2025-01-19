@@ -1,6 +1,6 @@
 {
   "name": "@idea2app/lark-lark-next-bootstrap-ts",
-  "version": "1.7.0",
+  "version": "2.1.0",
   "description": "Lark project scaffold based on TypeScript, React, Next.js, Bootstrap & Workbox.",
   "private": true,
   "engines": {
