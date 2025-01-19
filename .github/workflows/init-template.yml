@@ -5,7 +5,7 @@ on:
       - main
 env:
   TEMPLATE_OWNER: idea2app
-  TEMPLATE_NAME: Next-Bootstrap-ts
+  TEMPLATE_NAME: Lark-Next-Bootstrap-ts
   REPOSITORY_OWNER: ${{ github.repository_owner }}
   REPOSITORY_NAME: ${{ github.event.repository.name }}
 

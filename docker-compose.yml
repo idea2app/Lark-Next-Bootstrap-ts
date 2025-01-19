@@ -5,7 +5,7 @@ networks:
 
 services:
   lark-next-bootstrap-ts:
-    image: idea2app/lark-lark-next-bootstrap-ts
+    image: idea2app/lark-next-bootstrap-ts
     networks:
       - idea2app
     healthcheck:
