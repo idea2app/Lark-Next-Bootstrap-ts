@@ -32,7 +32,7 @@ const HomePage = observer(() => (
       {mainNav().map(({ link, title, summary }) => (
         <Col key={link}>
           <Card
-            className={`h-100 p-4 rounded-3 border ${styles.card}`}
+            className={`h-100 rounded-3 border ${styles.card}`}
             tabIndex={-1}
           >
             <Card.Body>
