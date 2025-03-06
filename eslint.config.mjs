@@ -1,5 +1,5 @@
 // @ts-check
-import { fixupConfigRules, fixupPluginRules } from '@eslint/compat';
+import { fixupPluginRules } from '@eslint/compat';
 import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
@@ -23,13 +23,18 @@ export default tsEslint.config(
   },
   {
     // config with just ignores is the replacement for `.eslintignore`
-    ignores: ['**/node_modules/**', '**/public/**', '**/.next/**'],
+    ignores: [
+      '**/node_modules/**',
+      '**/public/**',
+      '**/.next/**',
+      '.github/scripts/**',
+    ],
   },
 
   // extends ...
   eslint.configs.recommended,
   ...tsEslint.configs.recommended,
-  ...fixupConfigRules(flatCompat.extends('plugin:@next/next/core-web-vitals')),
+  ...flatCompat.extends('plugin:@next/next/core-web-vitals'),
 
   // base config
   {
