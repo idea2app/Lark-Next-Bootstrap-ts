@@ -2,7 +2,6 @@
 import dynamic from 'next/dynamic';
 import { textJoin } from 'mobx-i18n';
 import { observer } from 'mobx-react';
-import Head from 'next/head';
 import { compose, translator } from 'next-ssr-middleware';
 import { FC, PropsWithChildren } from 'react';
 import { Container } from 'react-bootstrap';
@@ -45,20 +44,18 @@ const ComponentPage = observer(() => {
 
   return (
     <>
-      <Head>
+      <PageHead title={title}>
         <link
           rel="stylesheet"
-          href="https://unpkg.com/prismjs@1.29.0/themes/prism.min.css"
+          href="https://unpkg.com/prismjs@1.30.0/themes/prism.min.css"
         />
-      </Head>
-
-      <PageHead title={title} />
+      </PageHead>
 
       <Container>
         <h1 className="my-4 text-center">{title}</h1>
 
         <Example title="HTML Editor">
-          <HTMLEditor defaultValue="Hello, HTML!" onChange={console.log} />
+          <HTMLEditor defaultValue="Hello, HTML!" onChange={console.info} />
         </Example>
 
         <Example title="Block Editor">
