@@ -1,4 +1,5 @@
 import { Head, Html, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 
 export default function Document() {
   return (
@@ -7,7 +8,7 @@ export default function Document() {
         <link rel="icon" href="/favicon.ico" />
 
         <link rel="manifest" href="/manifest.json" />
-        <script src="https://polyfill.web-cell.dev/feature/PWAManifest.js"></script>
+        <Script src="https://polyfill.web-cell.dev/feature/PWAManifest.js" />
 
         <link
           rel="stylesheet"
