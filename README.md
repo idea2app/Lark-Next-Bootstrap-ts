@@ -79,15 +79,15 @@ You can check out [the Next.js GitHub repository][27] - your feedback and contri
 
 ### Environment variables
 
-|           name           |     file     |        description        |
-| :----------------------: | :----------: | :-----------------------: |
-|   `SENTRY_AUTH_TOKEN`    | `.env.local` |  [Official document][28]  |
-|       `SENTRY_ORG`       |    `.env`    |  [Official document][29]  |
-|     `SENTRY_PROJECT`     |    `.env`    |  [Official document][29]  |
-| `NEXT_PUBLIC_SENTRY_DSN` |    `.env`    |  [Official document][30]  |
-|      `LARK_APP_ID`       | `.env.local` |  [Official document][31]  |
-|    `LARK_APP_SECRET`     | `.env.local` |  [Official document][31]  |
-| `NEXT_PUBLIC_CACHE_HOST` |    `.env`    | Static files CDN for Lark |
+|           name            |     file     |        description        |
+| :-----------------------: | :----------: | :-----------------------: |
+|    `SENTRY_AUTH_TOKEN`    | `.env.local` |  [Official document][28]  |
+|       `SENTRY_ORG`        |    `.env`    |  [Official document][29]  |
+|     `SENTRY_PROJECT`      |    `.env`    |  [Official document][29]  |
+| `NEXT_PUBLIC_SENTRY_DSN`  |    `.env`    |  [Official document][30]  |
+| `NEXT_PUBLIC_LARK_APP_ID` | `.env.local` |  [Official document][31]  |
+|     `LARK_APP_SECRET`     | `.env.local` |  [Official document][31]  |
+| `NEXT_PUBLIC_CACHE_HOST`  |    `.env`    | Static files CDN for Lark |
 
 ### Vercel
 

@@ -2,53 +2,28 @@ import { marked } from 'marked';
 import {
   LarkApp,
   LarkData,
-  normalizeText,
-  TableCellLocation,
+  normalizeTextArray,
   TableCellText,
-  TableCellValue,
 } from 'mobx-lark';
+import { oauth2Signer } from 'next-ssr-middleware';
 
 import { safeAPI } from '../core';
 
-export const lark = new LarkApp({
-  host: process.env.LARK_API_HOST,
-  id: process.env.LARK_APP_ID!,
+export const larkAppMeta = {
+  host: process.env.NEXT_PUBLIC_LARK_API_HOST,
+  id: process.env.NEXT_PUBLIC_LARK_APP_ID!,
   secret: process.env.LARK_APP_SECRET!,
-});
-
-export interface TableFormViewItem
-  extends Record<'name' | 'description' | 'shared_url', string>,
-    Record<'shared' | 'submit_limit_once', boolean> {
-  shared_limit: 'tenant_editable';
-}
-export type LarkFormData = LarkData<{ form: TableFormViewItem }>;
-
-export const normalizeTextArray = (list: TableCellText[]) =>
-  list.reduce(
-    (sum, item) => {
-      if (item.text === ',') sum.push('');
-      else sum[sum.length - 1] += normalizeText(item);
-
-      return sum;
-    },
-    [''],
-  );
+};
+export const lark = new LarkApp(larkAppMeta);
 
 export const normalizeMarkdownArray = (list: TableCellText[]) =>
   normalizeTextArray(list).map(text => marked(text) as string);
-
-export function coordinateOf(location: TableCellValue): [number, number] {
-  const [longitude, latitude] =
-    (location as TableCellLocation)?.location.split(',') || [];
-
-  return [+latitude, +longitude];
-}
 
 export const proxyLark = <T extends LarkData>(
   dataFilter?: (path: string, data: T) => T,
 ) =>
   safeAPI(async ({ method, url, headers, body }, response) => {
-    await lark.getAccessToken();
+    if (!headers.authorization) await lark.getAccessToken();
 
     delete headers.host;
 
@@ -67,3 +42,13 @@ export const proxyLark = <T extends LarkData>(
 
     response.send(dataFilter?.(path, data!) || data);
   });
+
+export const larkOauth2 = oauth2Signer({
+  signInURL: URI => new LarkApp(larkAppMeta).getWebSignInURL(URI),
+  accessToken: ({ code }) => new LarkApp(larkAppMeta).getUserAccessToken(code),
+  userProfile: accessToken => {
+    const { secret, ...option } = larkAppMeta;
+
+    return new LarkApp({ ...option, accessToken }).getUserMeta();
+  },
+});
