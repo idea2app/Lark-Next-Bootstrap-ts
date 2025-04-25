@@ -1,3 +1,4 @@
+import { withKoa } from '../../../core';
 import { proxyLark } from '../../core';
 
-export default proxyLark();
+export default withKoa(proxyLark());

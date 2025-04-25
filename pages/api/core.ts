@@ -1,6 +1,7 @@
+import Router from '@koa/router';
+import Koa, { Context, Middleware } from 'koa';
 import { HTTPError } from 'koajax';
 import { DataObject } from 'mobx-restful';
-import { NextApiRequest, NextApiResponse } from 'next';
 import { ProxyAgent, setGlobalDispatcher } from 'undici';
 import { parse } from 'yaml';
 
@@ -8,43 +9,50 @@ const { HTTP_PROXY } = process.env;
 
 if (HTTP_PROXY) setGlobalDispatcher(new ProxyAgent(HTTP_PROXY));
 
-export type NextAPI = (
-  req: NextApiRequest,
-  res: NextApiResponse,
-) => Promise<any>;
+export const safeAPI: Middleware = async (context: Context, next) => {
+  try {
+    return await next();
+  } catch (error) {
+    if (!(error instanceof HTTPError)) {
+      console.error(error);
 
-export function safeAPI(handler: NextAPI): NextAPI {
-  return async (req, res) => {
-    try {
-      return await handler(req, res);
-    } catch (error) {
-      if (!(error instanceof HTTPError)) {
-        console.error(error);
+      context.status = 400;
 
-        res.status(400);
-
-        return res.send({ message: (error as Error).message });
-      }
-      const { message, response } = error;
-      let { body } = response;
-
-      res.status(response.status);
-      res.statusMessage = message;
-
-      if (body instanceof ArrayBuffer)
-        try {
-          body = new TextDecoder().decode(new Uint8Array(body));
-          console.error(body);
-
-          body = JSON.parse(body);
-          console.error(body);
-        } catch {
-          //
-        }
-      res.send(body);
+      return (context.body = { message: (error as Error).message });
     }
-  };
+    const { message, response } = error;
+    let { body } = response;
+
+    context.status = response.status;
+    context.statusMessage = message;
+
+    if (body instanceof ArrayBuffer)
+      try {
+        body = new TextDecoder().decode(new Uint8Array(body));
+        console.error(body);
+
+        body = JSON.parse(body);
+        console.error(body);
+      } catch {
+        //
+      }
+    context.body = body;
+  }
+};
+
+export function withKoa<S, T>(...middlewares: Middleware<S, T>[]) {
+  const app = new Koa().use(safeAPI);
+
+  for (const middleware of middlewares) app.use(middleware);
+
+  return app.callback();
 }
+
+export const routeOf = (path: string) =>
+  path.match(/pages(\/api\/.+)\.(j|t)s/)?.[1]?.replace(/\/index$/, '');
+
+export const withKoaRouter = (router: Router) =>
+  withKoa(router.routes(), router.allowedMethods());
 
 export interface ArticleMeta {
   name: string;

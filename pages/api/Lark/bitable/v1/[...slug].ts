@@ -1,6 +1,7 @@
 import { LarkPageData, TableRecord, TableRecordData } from 'mobx-lark';
 import { DataObject } from 'mobx-restful';
 
+import { withKoa } from '../../../core';
 import { proxyLark } from '../../core';
 
 function filterData(fields: DataObject) {
@@ -8,7 +9,7 @@ function filterData(fields: DataObject) {
     if (!/^\w+$/.test(key)) delete fields[key];
 }
 
-export default proxyLark((URI, data) => {
+const middleware = proxyLark((URI, data) => {
   const [path] = URI.split('?');
 
   if (path.endsWith('/records')) {
@@ -24,3 +25,5 @@ export default proxyLark((URI, data) => {
 
   return data;
 });
+
+export default withKoa(middleware);

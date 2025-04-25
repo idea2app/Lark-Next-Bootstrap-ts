@@ -1,53 +1,53 @@
+import Router from '@koa/router';
 import { fileTypeFromStream } from 'file-type';
 import MIME from 'mime';
 import { Readable } from 'stream';
 
-import { safeAPI } from '../../../core';
+import { withKoaRouter } from '../../../core';
 import { lark } from '../../core';
 
 export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!;
 
-export default safeAPI(async ({ method, url, query, headers }, res) => {
-  const { id, name, cache } = query;
+const router = new Router({ prefix: '/api/Lark/file' });
 
-  if (cache)
-    return void res.redirect(
-      new URL(new URL(url!, `http://${headers.host}`).pathname, CACHE_HOST) +
-        '',
-    );
-  switch (method) {
-    case 'HEAD':
-    case 'GET': {
-      const token = await lark.getAccessToken();
+router.all('/:id/:name', async context => {
+  const { method, url, params, query } = context;
+  const { id, name } = params;
 
-      const response = await fetch(
-        lark.client.baseURI + `drive/v1/medias/${id}/download`,
-        { headers: { Authorization: `Bearer ${token}` } },
-      );
-      const { ok, status, headers, body } = response;
+  if (query.cache) {
+    const { pathname } = new URL(url!, `http://${context.headers.host}`);
 
-      if (!ok) return void res.status(status).send(await response.json());
-
-      const mime = headers.get('Content-Type'),
-        [stream1, stream2] = body!.tee();
-
-      const contentType =
-        !mime || mime.startsWith('application/octet-stream')
-          ? MIME.getType(name! + '') ||
-            (await fileTypeFromStream(stream1))?.mime
-          : mime;
-      res.setHeader('Content-Type', contentType || 'application/octet-stream');
-      res.setHeader(
-        'Content-Disposition',
-        headers.get('Content-Disposition') || '',
-      );
-      res.setHeader('Content-Length', headers.get('Content-Length') || '');
-
-      return void (method === 'GET'
-        ? // @ts-expect-error Web type compatibility
-          Readable.fromWeb(stream2).pipe(res)
-        : res.end());
-    }
+    return context.redirect(new URL(pathname, CACHE_HOST) + '');
   }
-  res.status(405).end();
+
+  const token = await lark.getAccessToken();
+
+  const response = await fetch(
+    lark.client.baseURI + `drive/v1/medias/${id}/download`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+  const { ok, status, headers, body } = response;
+
+  if (!ok) {
+    context.status = status;
+
+    return (context.body = await response.json());
+  }
+
+  const mime = headers.get('Content-Type'),
+    [stream1, stream2] = body!.tee();
+
+  const contentType =
+    !mime || mime.startsWith('application/octet-stream')
+      ? MIME.getType(name! + '') || (await fileTypeFromStream(stream1))?.mime
+      : mime;
+  context.set('Content-Type', contentType || 'application/octet-stream');
+  context.set('Content-Disposition', headers.get('Content-Disposition') || '');
+  context.set('Content-Length', headers.get('Content-Length') || '');
+
+  if (method === 'GET')
+    // @ts-expect-error Web type compatibility
+    context.body = Readable.fromWeb(stream2);
 });
+
+export default withKoaRouter(router);
