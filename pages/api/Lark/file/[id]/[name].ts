@@ -1,16 +1,16 @@
 import { fileTypeFromStream } from 'file-type';
-import { parse } from 'path';
+import MIME from 'mime';
 import { Readable } from 'stream';
 
-import { safeAPI } from '../../core';
-import { lark } from '../core';
+import { safeAPI } from '../../../core';
+import { lark } from '../../core';
 
 export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!;
 
 export default safeAPI(async ({ method, url, query, headers }, res) => {
-  const { ext } = parse(url!);
+  const { id, name, cache } = query;
 
-  if (ext)
+  if (cache)
     return void res.redirect(
       new URL(new URL(url!, `http://${headers.host}`).pathname, CACHE_HOST) +
         '',
@@ -18,8 +18,7 @@ export default safeAPI(async ({ method, url, query, headers }, res) => {
   switch (method) {
     case 'HEAD':
     case 'GET': {
-      const { id } = query,
-        token = await lark.getAccessToken();
+      const token = await lark.getAccessToken();
 
       const response = await fetch(
         lark.client.baseURI + `drive/v1/medias/${id}/download`,
@@ -32,9 +31,11 @@ export default safeAPI(async ({ method, url, query, headers }, res) => {
       const mime = headers.get('Content-Type'),
         [stream1, stream2] = body!.tee();
 
-      const contentType = mime?.startsWith('application/octet-stream')
-        ? (await fileTypeFromStream(stream1))?.mime
-        : mime;
+      const contentType =
+        !mime || mime.startsWith('application/octet-stream')
+          ? MIME.getType(name! + '') ||
+            (await fileTypeFromStream(stream1))?.mime
+          : mime;
       res.setHeader('Content-Type', contentType || 'application/octet-stream');
       res.setHeader(
         'Content-Disposition',
