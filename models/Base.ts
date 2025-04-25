@@ -1,7 +1,6 @@
 import 'core-js/full/array/from-async';
 
 import { HTTPClient } from 'koajax';
-import MIME from 'mime';
 import { githubClient, RepositoryModel } from 'mobx-github';
 import { TableCellAttachment, TableCellMedia, TableCellValue } from 'mobx-lark';
 import { DataObject } from 'mobx-restful';
@@ -9,10 +8,11 @@ import { buildURLData } from 'web-utility';
 
 export const isServer = () => typeof window === 'undefined';
 
-const VercelHost = process.env.VERCEL_URL,
-  GithubToken = process.env.GITHUB_TOKEN;
+export const VercelHost = process.env.VERCEL_URL,
+  GithubToken = process.env.GITHUB_TOKEN,
+  LARK_BASE_ID = process.env.NEXT_PUBLIC_LARK_BASE_ID!;
 
-const API_Host = isServer()
+export const API_Host = isServer()
   ? VercelHost
     ? `https://${VercelHost}`
     : 'http://localhost:3000'
@@ -21,7 +21,7 @@ const API_Host = isServer()
 export const LARK_API_HOST = `${API_Host}/api/Lark/`;
 
 export const larkClient = new HTTPClient({
-  baseURI: `${API_Host}/api/Lark/`,
+  baseURI: LARK_API_HOST,
   responseType: 'json',
 });
 
@@ -60,10 +60,9 @@ export function fileURLOf(field: TableCellValue, cache = false) {
 
   const file = field[0] as TableCellMedia | TableCellAttachment;
 
-  let URI = `/api/Lark/file/${'file_token' in file ? file.file_token : file.attachmentToken}`;
+  let URI = `/api/Lark/file/${'file_token' in file ? file.file_token : file.attachmentToken}/${file.name}`;
 
-  if (cache)
-    URI += '.' + MIME.getExtension('type' in file ? file.type : file.mimeType);
+  if (cache) URI += '?cache=1';
 
   return URI;
 }
@@ -73,12 +72,16 @@ export const prefillForm = (data: DataObject) =>
     Object.entries(data).map(([key, value]) => [`prefill_${key}`, value]),
   );
 
-export function wrapFile(URI?: TableCellValue) {
-  return typeof URI === 'string'
-    ? ([{ file_token: URI.split('/').at(-1) }] as TableCellValue)
-    : undefined;
-}
+export const wrapTime = (date?: TableCellValue) =>
+  date ? +new Date(date as string) : undefined;
 
-export function wrapRelation(ID?: TableCellValue) {
-  return ID ? (Array.isArray(ID) ? ID : ([ID] as TableCellValue)) : undefined;
-}
+export const wrapURL = (link?: TableCellValue) =>
+  link ? { link, text: link } : undefined;
+
+export const wrapFile = (URI?: TableCellValue) =>
+  typeof URI === 'string'
+    ? ([{ file_token: URI.split('/').at(-2) }] as TableCellValue)
+    : undefined;
+
+export const wrapRelation = (ID?: TableCellValue) =>
+  ID ? (Array.isArray(ID) ? ID : ([ID] as TableCellValue)) : undefined;
