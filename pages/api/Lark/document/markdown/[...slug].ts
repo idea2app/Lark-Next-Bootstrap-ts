@@ -1,20 +1,17 @@
-import { safeAPI } from '../../../core';
+import Router from '@koa/router';
+
+import { withKoaRouter } from '../../../core';
 import { lark } from '../../core';
 
-export default safeAPI(async ({ method, query: { slug } }, response) => {
-  const [type, id] = slug as string[];
+const router = new Router({ prefix: '/api/Lark/document/markdown' });
 
-  switch (method) {
-    case 'GET': {
-      await lark.getAccessToken();
+router.get('/:type/:id', async context => {
+  const { type, id } = context.params;
 
-      const markdown = await lark.downloadMarkdown(`${type}/${id}`);
+  const markdown = await lark.downloadMarkdown(`${type}/${id}`);
 
-      return void response
-        .setHeader('Content-Type', 'text/markdown; charset=utf-8')
-        .end(markdown);
-    }
-  }
-  response.setHeader('Allow', ['GET']);
-  response.status(405).end();
+  context.set('Content-Type', 'text/markdown; charset=utf-8');
+  context.body = markdown;
 });
+
+export default withKoaRouter(router);

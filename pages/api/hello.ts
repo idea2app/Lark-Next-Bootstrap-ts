@@ -1,12 +1,13 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiResponse } from 'next';
+import Router from '@koa/router';
 
-import { safeAPI } from './core';
+import { routeOf, withKoaRouter } from './core';
 
-interface Data {
-  name: string;
-}
+const router = new Router({ prefix: routeOf(import.meta.url) });
 
-export default safeAPI(async (req, res: NextApiResponse<Data>) =>
-  res.status(401).json({ name: 'John Doe' }),
-);
+router.get('/', async ctx => {
+  ctx.status = 401;
+  ctx.body = { name: 'John Doe' };
+});
+
+export default withKoaRouter(router);

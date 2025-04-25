@@ -1,3 +1,4 @@
+import { Middleware } from 'koa';
 import { marked } from 'marked';
 import {
   LarkApp,
@@ -6,8 +7,6 @@ import {
   TableCellText,
 } from 'mobx-lark';
 import { oauth2Signer } from 'next-ssr-middleware';
-
-import { safeAPI } from '../core';
 
 export const larkAppMeta = {
   host: process.env.NEXT_PUBLIC_LARK_API_HOST,
@@ -19,10 +18,11 @@ export const lark = new LarkApp(larkAppMeta);
 export const normalizeMarkdownArray = (list: TableCellText[]) =>
   normalizeTextArray(list).map(text => marked(text) as string);
 
-export const proxyLark = <T extends LarkData>(
-  dataFilter?: (path: string, data: T) => T,
-) =>
-  safeAPI(async ({ method, url, headers, body }, response) => {
+export const proxyLark =
+  <T extends LarkData>(dataFilter?: (path: string, data: T) => T): Middleware =>
+  async context => {
+    const { method, url, headers, body } = context;
+
     if (!headers.authorization) await lark.getAccessToken();
 
     delete headers.host;
@@ -38,10 +38,10 @@ export const proxyLark = <T extends LarkData>(
       body: body || undefined,
     });
 
-    response.status(status);
+    context.status = status;
 
-    response.send(dataFilter?.(path, data!) || data);
-  });
+    context.body = dataFilter?.(path, data!) || data;
+  };
 
 export const larkOauth2 = oauth2Signer({
   signInURL: URI => new LarkApp(larkAppMeta).getWebSignInURL(URI),
