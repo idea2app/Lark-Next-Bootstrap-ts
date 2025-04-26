@@ -1,7 +1,7 @@
 import { LarkPageData, TableRecord, TableRecordData } from 'mobx-lark';
 import { DataObject } from 'mobx-restful';
 
-import { withKoa } from '../../../core';
+import { withSafeKoa } from '../../../core';
 import { proxyLark } from '../../core';
 
 function filterData(fields: DataObject) {
@@ -26,4 +26,4 @@ const middleware = proxyLark((URI, data) => {
   return data;
 });
 
-export default withKoa(middleware);
+export default withSafeKoa(middleware);

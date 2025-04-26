@@ -1,7 +1,8 @@
-import Router from '@koa/router';
-import Koa, { Context, Middleware } from 'koa';
+import Router, { RouterParamContext } from '@koa/router';
+import { Context, Middleware } from 'koa';
 import { HTTPError } from 'koajax';
 import { DataObject } from 'mobx-restful';
+import { KoaOption, withKoa, withKoaRouter } from 'next-ssr-middleware';
 import { ProxyAgent, setGlobalDispatcher } from 'undici';
 import { parse } from 'yaml';
 
@@ -9,7 +10,7 @@ const { HTTP_PROXY } = process.env;
 
 if (HTTP_PROXY) setGlobalDispatcher(new ProxyAgent(HTTP_PROXY));
 
-export const safeAPI: Middleware = async (context: Context, next) => {
+export const safeAPI: Middleware<any, any> = async (context: Context, next) => {
   try {
     return await next();
   } catch (error) {
@@ -29,30 +30,22 @@ export const safeAPI: Middleware = async (context: Context, next) => {
     if (body instanceof ArrayBuffer)
       try {
         body = new TextDecoder().decode(new Uint8Array(body));
-        console.error(body);
 
         body = JSON.parse(body);
-        console.error(body);
       } catch {
         //
       }
-    context.body = body;
+    console.error((context.body = body));
   }
 };
 
-export function withKoa<S, T>(...middlewares: Middleware<S, T>[]) {
-  const app = new Koa().use(safeAPI);
+export const withSafeKoa = <S, C>(...middlewares: Middleware<S, C>[]) =>
+  withKoa<S, C>({} as KoaOption, safeAPI, ...middlewares);
 
-  for (const middleware of middlewares) app.use(middleware);
-
-  return app.callback();
-}
-
-export const routeOf = (path: string) =>
-  path.match(/pages(\/api\/.+)\.(j|t)s/)?.[1]?.replace(/\/index$/, '');
-
-export const withKoaRouter = (router: Router) =>
-  withKoa(router.routes(), router.allowedMethods());
+export const withSafeKoaRouter = <S, C extends RouterParamContext<S>>(
+  router: Router<S, C>,
+  ...middlewares: Middleware<S, C>[]
+) => withKoaRouter<S, C>({} as KoaOption, router, safeAPI, ...middlewares);
 
 export interface ArticleMeta {
   name: string;

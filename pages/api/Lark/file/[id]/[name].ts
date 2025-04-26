@@ -1,14 +1,14 @@
-import Router from '@koa/router';
 import { fileTypeFromStream } from 'file-type';
 import MIME from 'mime';
+import { createRouter } from 'next-ssr-middleware';
 import { Readable } from 'stream';
 
-import { withKoaRouter } from '../../../core';
+import { withSafeKoaRouter } from '../../../core';
 import { lark } from '../../core';
 
 export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!;
 
-const router = new Router({ prefix: '/api/Lark/file' });
+const router = createRouter(import.meta.url);
 
 router.all('/:id/:name', async context => {
   const { method, url, params, query } = context;
@@ -50,4 +50,4 @@ router.all('/:id/:name', async context => {
     context.body = Readable.fromWeb(stream2);
 });
 
-export default withKoaRouter(router);
+export default withSafeKoaRouter(router);
