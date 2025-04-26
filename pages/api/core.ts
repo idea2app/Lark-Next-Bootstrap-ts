@@ -35,7 +35,9 @@ export const safeAPI: Middleware<any, any> = async (context: Context, next) => {
       } catch {
         //
       }
-    console.error((context.body = body));
+    console.error(JSON.stringify(body, null, 2));
+
+    context.body = body;
   }
 };
 

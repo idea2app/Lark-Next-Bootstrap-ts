@@ -1,6 +1,6 @@
 import { fileTypeFromStream } from 'file-type';
 import MIME from 'mime';
-import { createRouter } from 'next-ssr-middleware';
+import { createKoaRouter } from 'next-ssr-middleware';
 import { Readable } from 'stream';
 
 import { withSafeKoaRouter } from '../../../core';
@@ -8,7 +8,7 @@ import { lark } from '../../core';
 
 export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!;
 
-const router = createRouter(import.meta.url);
+const router = createKoaRouter(import.meta.url);
 
 router.all('/:id/:name', async context => {
   const { method, url, params, query } = context;
