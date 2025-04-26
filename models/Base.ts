@@ -78,10 +78,12 @@ export const wrapTime = (date?: TableCellValue) =>
 export const wrapURL = (link?: TableCellValue) =>
   link ? { link, text: link } : undefined;
 
-export const wrapFile = (URI?: TableCellValue) =>
-  typeof URI === 'string'
-    ? ([{ file_token: URI.split('/').at(-2) }] as TableCellValue)
-    : undefined;
+export const wrapFile = (URIs?: TableCellValue) =>
+  (Array.isArray(URIs) ? URIs : [URIs])
+    .map(
+      URI => typeof URI === 'string' && { file_token: URI.split('/').at(-2) },
+    )
+    .filter(Boolean) as TableCellValue;
 
 export const wrapRelation = (ID?: TableCellValue) =>
   ID ? (Array.isArray(ID) ? ID : ([ID] as TableCellValue)) : undefined;

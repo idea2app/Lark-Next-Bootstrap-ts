@@ -1,9 +1,9 @@
-import { createRouter } from 'next-ssr-middleware';
+import { createKoaRouter } from 'next-ssr-middleware';
 
 import { withSafeKoaRouter } from '../../../core';
 import { lark } from '../../core';
 
-const router = createRouter(import.meta.url);
+const router = createKoaRouter(import.meta.url);
 
 router.get('/:type/:id', async context => {
   const { type, id } = context.params;

@@ -4,6 +4,8 @@ import { DataObject } from 'mobx-restful';
 import { withSafeKoa } from '../../../core';
 import { proxyLark } from '../../core';
 
+export const config = { api: { bodyParser: false } };
+
 function filterData(fields: DataObject) {
   for (const key of Object.keys(fields))
     if (!/^\w+$/.test(key)) delete fields[key];

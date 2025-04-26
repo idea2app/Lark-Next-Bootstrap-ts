@@ -120,8 +120,8 @@ importers:
         specifier: ~5.6.0
         version: 5.6.0(@babel/core@7.26.10)(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(webpack@5.99.7)
       next-ssr-middleware:
-        specifier: ^0.10.0-rc.2
-        version: 0.10.0-rc.2(@koa/bodyparser@5.1.1(koa@2.16.1))(@koa/router@13.1.0)(koa@2.16.1)(mobx-i18n@0.6.0(mobx@6.13.7)(typescript@5.8.3))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
+        specifier: ^0.10.0
+        version: 0.10.0(@koa/bodyparser@5.1.1(koa@2.16.1))(@koa/router@13.1.0)(koa@2.16.1)(mobx-i18n@0.6.0(mobx@6.13.7)(typescript@5.8.3))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(typescript@5.8.3)
       next-with-less:
         specifier: ^3.0.1
         version: 3.0.1(less-loader@12.2.0(less@4.3.0)(webpack@5.99.7))(less@4.3.0)(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
@@ -4233,8 +4233,8 @@ packages:
     peerDependencies:
       next: ^15.3.1
 
-  next-ssr-middleware@0.10.0-rc.2:
-    resolution: {integrity: sha512-0eBE6nq8zXCLy9EAwnULW7Z1544LoNPFuaFwuuSoe5iokFFAO6ldaLkDFESWhaZSwn5Vis0OCNV0MqV653EKfw==}
+  next-ssr-middleware@0.10.0:
+    resolution: {integrity: sha512-5Dmdw44hVp4ABoL4uSrcErb/G9zf2iwR2U9Uh/QJ1YFVtruJaBRzFDWaDJP2pvWjebtGy7UokZssCvK0Ndk7NA==}
     peerDependencies:
       '@koa/bodyparser': '>=5'
       '@koa/router': '>=13'
@@ -10353,7 +10353,7 @@ snapshots:
       - uglify-js
       - webpack
 
-  next-ssr-middleware@0.10.0-rc.2(@koa/bodyparser@5.1.1(koa@2.16.1))(@koa/router@13.1.0)(koa@2.16.1)(mobx-i18n@0.6.0(mobx@6.13.7)(typescript@5.8.3))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(typescript@5.8.3):
+  next-ssr-middleware@0.10.0(@koa/bodyparser@5.1.1(koa@2.16.1))(@koa/router@13.1.0)(koa@2.16.1)(mobx-i18n@0.6.0(mobx@6.13.7)(typescript@5.8.3))(next@15.3.1(@babel/core@7.26.10)(@opentelemetry/api@1.9.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react@19.1.0)(typescript@5.8.3):
     dependencies:
       '@koa/bodyparser': 5.1.1(koa@2.16.1)
       '@koa/router': 13.1.0

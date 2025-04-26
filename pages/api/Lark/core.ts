@@ -21,7 +21,7 @@ export const normalizeMarkdownArray = (list: TableCellText[]) =>
 export const proxyLark =
   <T extends LarkData>(dataFilter?: (path: string, data: T) => T): Middleware =>
   async context => {
-    const { method, url, headers, body } = context;
+    const { method, url, headers, request } = context;
 
     if (!headers.authorization) await lark.getAccessToken();
 
@@ -29,18 +29,18 @@ export const proxyLark =
 
     const path = url!.slice(`/api/Lark/`.length);
 
-    const { status, body: data } = await lark.client.request<T>({
+    const { status, body } = await lark.client.request<T>({
       // @ts-expect-error Type compatibility issue
       method,
       path,
       // @ts-expect-error Type compatibility issue
       headers,
-      body: body || undefined,
+      body: Reflect.get(request, 'body'),
     });
 
     context.status = status;
 
-    context.body = dataFilter?.(path, data!) || data;
+    context.body = dataFilter?.(path, body!) || body;
   };
 
 export const larkOauth2 = oauth2Signer({

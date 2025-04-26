@@ -3,7 +3,7 @@ import formidable from 'formidable';
 import { readFile } from 'fs/promises';
 import MIME from 'mime';
 import { UploadTargetType } from 'mobx-lark';
-import { createRouter } from 'next-ssr-middleware';
+import { createKoaRouter } from 'next-ssr-middleware';
 import { parse } from 'path';
 
 import { LARK_API_HOST } from '../../../../models/Base';
@@ -12,7 +12,7 @@ import { lark } from '../core';
 
 export const config = { api: { bodyParser: false } };
 
-const router = createRouter(import.meta.url);
+const router = createKoaRouter(import.meta.url);
 
 router.post('/', async context => {
   const form = formidable();
