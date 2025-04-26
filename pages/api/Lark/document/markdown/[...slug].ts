@@ -1,9 +1,9 @@
-import Router from '@koa/router';
+import { createRouter } from 'next-ssr-middleware';
 
-import { withKoaRouter } from '../../../core';
+import { withSafeKoaRouter } from '../../../core';
 import { lark } from '../../core';
 
-const router = new Router({ prefix: '/api/Lark/document/markdown' });
+const router = createRouter(import.meta.url);
 
 router.get('/:type/:id', async context => {
   const { type, id } = context.params;
@@ -14,4 +14,4 @@ router.get('/:type/:id', async context => {
   context.body = markdown;
 });
 
-export default withKoaRouter(router);
+export default withSafeKoaRouter(router);
