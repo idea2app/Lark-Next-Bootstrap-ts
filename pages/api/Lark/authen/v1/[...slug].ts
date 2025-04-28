@@ -1,6 +1,6 @@
 import { withSafeKoa } from '../../../core';
-import { proxyLark } from '../../core';
+import { proxyLarkAll } from '../../core';
 
 export const config = { api: { bodyParser: false } };
 
-export default withSafeKoa(proxyLark());
+export default withSafeKoa(proxyLarkAll);

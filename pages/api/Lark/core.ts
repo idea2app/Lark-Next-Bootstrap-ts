@@ -1,4 +1,4 @@
-import { Middleware } from 'koa';
+import { Context, Middleware } from 'koa';
 import { marked } from 'marked';
 import {
   LarkApp,
@@ -18,30 +18,27 @@ export const lark = new LarkApp(larkAppMeta);
 export const normalizeMarkdownArray = (list: TableCellText[]) =>
   normalizeTextArray(list).map(text => marked(text) as string);
 
-export const proxyLark =
-  <T extends LarkData>(dataFilter?: (path: string, data: T) => T): Middleware =>
-  async context => {
-    const { method, url, headers, request } = context;
+export const proxyLark = async <T extends LarkData>({
+  method,
+  url,
+  headers: { host, authorization, ...headers },
+  request,
+}: Context) => {
+  await lark.getAccessToken();
 
-    if (!headers.authorization) await lark.getAccessToken();
+  const path = url!.slice(`/api/Lark/`.length),
+    body = Reflect.get(request, 'body');
 
-    delete headers.host;
+  // @ts-expect-error Type compatibility issue
+  return lark.client.request<T>({ method, path, headers, body });
+};
 
-    const path = url!.slice(`/api/Lark/`.length);
+export const proxyLarkAll: Middleware = async context => {
+  const { status, body } = await proxyLark(context);
 
-    const { status, body } = await lark.client.request<T>({
-      // @ts-expect-error Type compatibility issue
-      method,
-      path,
-      // @ts-expect-error Type compatibility issue
-      headers,
-      body: Reflect.get(request, 'body'),
-    });
-
-    context.status = status;
-
-    context.body = dataFilter?.(path, body!) || body;
-  };
+  context.status = status;
+  context.body = body;
+};
 
 export const larkOauth2 = oauth2Signer({
   signInURL: URI => new LarkApp(larkAppMeta).getWebSignInURL(URI),
