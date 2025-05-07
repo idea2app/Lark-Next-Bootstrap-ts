@@ -6,7 +6,7 @@ import { UploadTargetType } from 'mobx-lark';
 import { createKoaRouter } from 'next-ssr-middleware';
 import { parse } from 'path';
 
-import { LARK_API_HOST } from '../../../../models/Base';
+import { LARK_API_HOST } from '../../../../models/configuration';
 import { withSafeKoaRouter } from '../../core';
 import { lark } from '../core';
 
