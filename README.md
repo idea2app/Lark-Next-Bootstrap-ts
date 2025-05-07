@@ -124,7 +124,7 @@ pnpm container
 [18]: https://code.visualstudio.com/
 [19]: https://github.com/new?template_name=Lark-Next-Bootstrap-ts&template_owner=idea2app
 [20]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/blob/80967ed49045af9dbcf4d3695a2c39d53a6f71f1/.github/workflows/pull-request.yml#L9-L11
-[21]: https://github.com/kaiyuanshe/kaiyuanshe.github.io/blob/bb4675a56bf1d6b207231313da5ed0af7cf0ebd6/.github/workflows/pull-request.yml#L32-L56
+[21]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/blob/363e023e5dd472c8ea53ec96eac25ec5122e667b/.github/workflows/Lark-notification.yml#L39
 [22]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/settings/secrets/actions
 [23]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/issues/new/choose
 [24]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/projects

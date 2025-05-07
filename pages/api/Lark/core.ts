@@ -8,12 +8,9 @@ import {
 } from 'mobx-lark';
 import { oauth2Signer } from 'next-ssr-middleware';
 
-export const larkAppMeta = {
-  host: process.env.NEXT_PUBLIC_LARK_API_HOST,
-  id: process.env.NEXT_PUBLIC_LARK_APP_ID!,
-  secret: process.env.LARK_APP_SECRET!,
-};
-export const lark = new LarkApp(larkAppMeta);
+import { LarkAppMeta } from '../../../models/configuration';
+
+export const lark = new LarkApp(LarkAppMeta);
 
 export const normalizeMarkdownArray = (list: TableCellText[]) =>
   normalizeTextArray(list).map(text => marked(text) as string);
@@ -41,10 +38,10 @@ export const proxyLarkAll: Middleware = async context => {
 };
 
 export const larkOauth2 = oauth2Signer({
-  signInURL: URI => new LarkApp(larkAppMeta).getWebSignInURL(URI),
-  accessToken: ({ code }) => new LarkApp(larkAppMeta).getUserAccessToken(code),
+  signInURL: URI => new LarkApp(LarkAppMeta).getWebSignInURL(URI),
+  accessToken: ({ code }) => new LarkApp(LarkAppMeta).getUserAccessToken(code),
   userProfile: accessToken => {
-    const { secret, ...option } = larkAppMeta;
+    const { secret, ...option } = LarkAppMeta;
 
     return new LarkApp({ ...option, accessToken }).getUserMeta();
   },

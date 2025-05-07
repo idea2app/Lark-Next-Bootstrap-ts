@@ -3,10 +3,9 @@ import MIME from 'mime';
 import { createKoaRouter } from 'next-ssr-middleware';
 import { Readable } from 'stream';
 
+import { CACHE_HOST } from '../../../../../models/configuration';
 import { withSafeKoaRouter } from '../../../core';
 import { lark } from '../../core';
-
-export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!;
 
 const router = createKoaRouter(import.meta.url);
 
