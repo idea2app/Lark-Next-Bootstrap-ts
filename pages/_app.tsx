@@ -55,8 +55,8 @@ export default class CustomApp extends App<I18nProps> {
 
         <MainNavigator />
 
-        {router.route.startsWith('/article/') ? (
-          <MDXLayout title={router.route.split('/').at(-1)}>
+        {router.asPath.startsWith('/article/') ? (
+          <MDXLayout title={router.asPath.split('/').at(-1)}>
             <Component {...pageProps} />
           </MDXLayout>
         ) : (
