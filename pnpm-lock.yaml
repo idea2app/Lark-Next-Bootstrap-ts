@@ -102,8 +102,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1(mobx@6.13.7)(typescript@5.9.2)
       mobx-lark:
-        specifier: ^2.2.0
-        version: 2.2.0(core-js@3.44.0)(typescript@5.9.2)
+        specifier: ^2.4.0-rc.10
+        version: 2.4.0-rc.10(core-js@3.44.0)(react@19.1.1)(typescript@5.9.2)
       mobx-react:
         specifier: ^9.2.0
         version: 9.2.0(mobx@6.13.7)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -4251,8 +4251,10 @@ packages:
     peerDependencies:
       mobx: '>=6.11'
 
-  mobx-lark@2.2.0:
-    resolution: {integrity: sha512-k5l8VHr0HSid9+S5+2vzAN1Xr8xMiaHeeChZnT4zAO4uvwNPMhoyM/MMv/rAuEyvqtlvv66GClWvUr/BaTl8kQ==}
+  mobx-lark@2.4.0-rc.10:
+    resolution: {integrity: sha512-1x1ADS9EsfOcRbYeRbasCO9OZdUjoOlj0OwlRk2I/Vipt9eFjGqY2/IPcPDlRCPkYN4tdUL/+Rc4acI0RmdpOA==}
+    peerDependencies:
+      react: '>=16'
 
   mobx-react-helper@0.4.1:
     resolution: {integrity: sha512-+chcWzOznL5/c6n33iswIGKvFJI/afmWRMFZ5NjjJyD3DJuoGuaiayEEhL3FITVKpwOkPKF2K5Werz8vhk6xEA==}
@@ -10435,12 +10437,14 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  mobx-lark@2.2.0(core-js@3.44.0)(typescript@5.9.2):
+  mobx-lark@2.4.0-rc.10(core-js@3.44.0)(react@19.1.1)(typescript@5.9.2):
     dependencies:
       '@swc/helpers': 0.5.17
+      '@types/react': 19.1.9
       koajax: 3.1.2(core-js@3.44.0)(typescript@5.9.2)
       mobx: 6.13.7
       mobx-restful: 2.1.0(core-js@3.44.0)(mobx@6.13.7)(typescript@5.9.2)
+      react: 19.1.1
       regenerator-runtime: 0.14.1
       web-utility: 4.4.3(typescript@5.9.2)
     transitivePeerDependencies:
