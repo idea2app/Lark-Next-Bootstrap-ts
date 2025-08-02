@@ -123,7 +123,7 @@ pnpm container
 [17]: https://pullrequestbadge.com/
 [18]: https://code.visualstudio.com/
 [19]: https://github.com/new?template_name=Lark-Next-Bootstrap-ts&template_owner=idea2app
-[20]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/blob/80967ed49045af9dbcf4d3695a2c39d53a6f71f1/.github/workflows/pull-request.yml#L9-L11
+[20]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/blob/afa51fad3b16e598bf3b10010b2dc47405b016a3/.github/workflows/main.yml#L9-L11
 [21]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/blob/363e023e5dd472c8ea53ec96eac25ec5122e667b/.github/workflows/Lark-notification.yml#L39
 [22]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/settings/secrets/actions
 [23]: https://github.com/idea2app/Lark-Next-Bootstrap-ts/issues/new/choose

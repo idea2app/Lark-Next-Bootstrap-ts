@@ -38,7 +38,7 @@ export default class CustomDocument extends Document<CustomDocumentProps> {
           />
           <link
             rel="stylesheet"
-            href="https://unpkg.com/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+            href="https://unpkg.com/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
           />
         </Head>
 
