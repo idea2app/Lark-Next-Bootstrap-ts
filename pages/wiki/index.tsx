@@ -1,9 +1,12 @@
 import { WikiNode } from 'mobx-lark';
+import { observer } from 'mobx-react';
 import { GetStaticProps } from 'next';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { Container } from 'react-bootstrap';
+import { treeFrom } from 'web-utility';
 
 import { PageHead } from '../../components/Layout/PageHead';
+import { I18nContext } from '../../models/Translation';
 import wikiStore from '../../models/Wiki';
 import { lark } from '../api/Lark/core';
 
@@ -15,20 +18,38 @@ export const getStaticProps: GetStaticProps = async () => {
   return { props: { nodes } };
 };
 
-const WikiIndexPage: FC<{ nodes: WikiNode[] }> = ({ nodes }) => (
-  <Container>
-    <PageHead title="Wiki" />
+interface XWikiNode extends WikiNode {
+  // eslint-disable-next-line no-restricted-syntax
+  children?: XWikiNode[];
+}
 
-    <h1>Wiki</h1>
-
+const renderTree = (children?: XWikiNode[]) =>
+  children && (
     <ol>
-      {nodes.map(({ node_token, title }) => (
+      {children.map(({ node_token, title, children }) => (
         <li key={node_token}>
           <a href={`/wiki/${node_token}`}>{title}</a>
+
+          {renderTree(children)}
         </li>
       ))}
     </ol>
-  </Container>
-);
+  );
+
+const WikiIndexPage: FC<{ nodes: XWikiNode[] }> = observer(({ nodes }) => {
+  const { t } = useContext(I18nContext);
+
+  return (
+    <Container>
+      <PageHead title={t('wiki')} />
+
+      <h1>{t('wiki')}</h1>
+
+      {renderTree(
+        treeFrom(nodes, 'node_token', 'parent_node_token', 'children'),
+      )}
+    </Container>
+  );
+});
 
 export default WikiIndexPage;
