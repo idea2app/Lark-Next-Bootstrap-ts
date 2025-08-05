@@ -42,6 +42,7 @@ export default {
 
   // MDX Article
   article: '文章',
+  wiki: '知識庫',
 
   // Search
   keywords: '關鍵詞',

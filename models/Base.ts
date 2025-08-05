@@ -7,6 +7,7 @@ import { DataObject } from 'mobx-restful';
 import { buildURLData } from 'web-utility';
 
 import { GITHUB_TOKEN, LARK_API_HOST } from './configuration';
+
 export const larkClient = new HTTPClient({
   baseURI: LARK_API_HOST,
   responseType: 'json',

@@ -44,6 +44,7 @@ export default {
 
   // MDX Article
   article: 'Article',
+  wiki: 'Wiki',
 
   // Search
   keywords: 'Keywords',

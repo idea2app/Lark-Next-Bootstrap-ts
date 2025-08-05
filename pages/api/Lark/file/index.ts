@@ -33,7 +33,7 @@ router.post('/', async context => {
   const name = parse(originalFilename || filepath).name + ext,
     type = MIME.getType(ext) || mimetype || 'application/octet-stream';
 
-  const blob = new File([buffer], name, { type });
+  const blob = new File([buffer as Buffer<ArrayBuffer>], name, { type });
 
   const file_token = await lark.uploadFile(
     blob,

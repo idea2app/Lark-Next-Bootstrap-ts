@@ -42,6 +42,7 @@ export default {
 
   // MDX Article
   article: '文章',
+  wiki: '知识库',
 
   // Search
   keywords: '关键词',
