@@ -14,17 +14,18 @@
 - Component suite: [Bootstrap v5][4]
 - PWA framework: [Workbox v6][5]
 - State management: [MobX v6][11]
-- API router: [Koa 2][12]
+- API router: [Koa 3][12]
 - CI / CD: GitHub [Actions][13] + [Vercel][14]
 - Monitor service: [Sentry][15]
 
 ## Major examples
 
 1. [Markdown articles](pages/article/)
-2. [Editor components](pages/component.tsx)
-3. [Pagination table](pages/pagination.tsx)
-4. [Scroll list](pages/scroll-list.tsx)
-5. [Not Found page (NGO)](pages/_error.tsx)
+2. [Lark wiki](pages/wiki/)
+3. [Editor components](pages/component.tsx)
+4. [Pagination table](pages/pagination.tsx)
+5. [Scroll list](pages/scroll-list.tsx)
+6. [Not Found page (NGO)](pages/_error.tsx)
    - Global: https://notfound.org/
    - Chinese: https://www.dnpw.org/cn/pa-notfound.html
 
@@ -32,11 +33,11 @@
 
 1. https://github.com/kaiyuanshe/kaiyuanshe.github.io
 2. https://github.com/idea2app/idea2app.github.io
+3. https://github.com/Open-Source-Bazaar/Open-Source-Bazaar.github.io
 
 ## Best practice
 
 1.  Install GitHub apps in your organization or account:
-
     1.  [Probot settings][16]: set up Issue labels & Pull Request rules
     2.  [PR badge][17]: set up Online [VS Code][18] editor entries in Pull Request description
 
@@ -80,21 +81,24 @@ You can check out [the Next.js GitHub repository][28] - your feedback and contri
 
 ### Environment variables
 
-|           name            |     file     |        description        |
-| :-----------------------: | :----------: | :-----------------------: |
-|    `SENTRY_AUTH_TOKEN`    | `.env.local` |  [Official document][29]  |
-|       `SENTRY_ORG`        |    `.env`    |  [Official document][30]  |
-|     `SENTRY_PROJECT`      |    `.env`    |  [Official document][30]  |
-| `NEXT_PUBLIC_SENTRY_DSN`  |    `.env`    |  [Official document][31]  |
-| `NEXT_PUBLIC_LARK_APP_ID` | `.env.local` |  [Official document][32]  |
-|     `LARK_APP_SECRET`     | `.env.local` |  [Official document][32]  |
-| `NEXT_PUBLIC_CACHE_HOST`  |    `.env`    | Static files CDN for Lark |
+|            name             |     file     |                   description                   |
+| :-------------------------: | :----------: | :---------------------------------------------: |
+|        `JWT_SECRET`         | `.env.local` | Random String for **JSON Web Token** encryption |
+|     `SENTRY_AUTH_TOKEN`     | `.env.local` |             [Official document][29]             |
+|        `SENTRY_ORG`         |    `.env`    |             [Official document][30]             |
+|      `SENTRY_PROJECT`       |    `.env`    |             [Official document][30]             |
+|  `NEXT_PUBLIC_SENTRY_DSN`   |    `.env`    |             [Official document][31]             |
+|  `NEXT_PUBLIC_LARK_APP_ID`  | `.env.local` |             [Official document][32]             |
+|      `LARK_APP_SECRET`      | `.env.local` |             [Official document][32]             |
+|  `NEXT_PUBLIC_CACHE_HOST`   |    `.env`    |            Static files CDN for Lark            |
+|     `CACHE_REPOSITORY`      |    `.env`    |   [GitHub repository for Lark file cache][33]   |
+| `NEXT_PUBLIC_LARK_WIKI_URL` |    `.env`    |            Entry URL of a Lark wiki             |
 
 ### Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform][14] from the creators of Next.js.
 
-Check out our [Next.js deployment documentation][33] for more details.
+Check out our [Next.js deployment documentation][34] for more details.
 
 ### Docker
 
@@ -102,6 +106,14 @@ Check out our [Next.js deployment documentation][33] for more details.
 pnpm pack-image
 pnpm container
 ```
+
+### CDN
+
+1. create & configure your own `CACHE_REPOSITORY` with https://github.com/idea2app/Web-file-cache
+2. set the `NEXT_PUBLIC_CACHE_HOST` environment variable to your CDN URL
+3. start your Lark-Next.js service, then copy the Crawler JWT from CLI console
+4. create an Automation Flow in your Lark BI Table to watch Attachment fields changing, then send an HTTP `POST` request to `https://your.next.js/api/file/crawler/task` with the Crawler JWT in the `Authorization` header
+5. your Lark file attachments will be cached in your CDN and loaded by your Lark-Next.js service automatically
 
 [0]: https://www.larksuite.com/
 [1]: https://react.dev/
@@ -136,4 +148,5 @@ pnpm container
 [30]: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#use-environment-variables
 [31]: https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/#create-initialization-config-files
 [32]: https://open.larksuite.com/document/server-docs/getting-started/api-access-token/app-access-token-development-guide#1f8b587c
-[33]: https://nextjs.org/docs/deployment
+[33]: https://github.com/idea2app/Web-file-cache?tab=readme-ov-file
+[34]: https://nextjs.org/docs/deployment

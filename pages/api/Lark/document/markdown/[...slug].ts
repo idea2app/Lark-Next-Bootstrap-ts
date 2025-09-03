@@ -1,11 +1,11 @@
-import { createKoaRouter } from 'next-ssr-middleware';
+import { createKoaRouter, withKoaRouter } from 'next-ssr-middleware';
 
-import { withSafeKoaRouter } from '../../../core';
+import { safeAPI } from '../../../core';
 import { lark } from '../../core';
 
 const router = createKoaRouter(import.meta.url);
 
-router.get('/:type/:id', async context => {
+router.get('/:type/:id', safeAPI, async context => {
   const { type, id } = context.params;
 
   const markdown = await lark.downloadMarkdown(`${type}/${id}`);
@@ -14,4 +14,4 @@ router.get('/:type/:id', async context => {
   context.body = markdown;
 });
 
-export default withSafeKoaRouter(router);
+export default withKoaRouter(router);

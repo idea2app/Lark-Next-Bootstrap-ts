@@ -3,18 +3,18 @@ import formidable from 'formidable';
 import { readFile } from 'fs/promises';
 import MIME from 'mime';
 import { UploadTargetType } from 'mobx-lark';
-import { createKoaRouter } from 'next-ssr-middleware';
+import { createKoaRouter, withKoaRouter } from 'next-ssr-middleware';
 import { parse } from 'path';
 
 import { LARK_API_HOST } from '../../../../models/configuration';
-import { withSafeKoaRouter } from '../../core';
+import { safeAPI } from '../../core';
 import { lark } from '../core';
 
 export const config = { api: { bodyParser: false } };
 
 const router = createKoaRouter(import.meta.url);
 
-router.post('/', async context => {
+router.post('/', safeAPI, async context => {
   const form = formidable();
 
   const [{ parent_type, parent_node }, { file }] = await form.parse(
@@ -45,4 +45,4 @@ router.post('/', async context => {
   return (context.body = { link });
 });
 
-export default withSafeKoaRouter(router);
+export default withKoaRouter(router);

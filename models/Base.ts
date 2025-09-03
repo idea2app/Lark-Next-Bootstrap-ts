@@ -23,6 +23,8 @@ githubClient.use(({ request }, next) => {
   return next();
 });
 
+export { githubClient };
+
 export const repositoryStore = new RepositoryModel('idea2app');
 
 type UploadedFile = Record<'originalname' | 'filename' | 'location', string>;

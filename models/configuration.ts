@@ -4,7 +4,8 @@ export const Name = process.env.NEXT_PUBLIC_SITE_NAME,
   Summary = process.env.NEXT_PUBLIC_SITE_SUMMARY,
   DefaultImage = process.env.NEXT_PUBLIC_LOGO!;
 
-export const { VERCEL_URL, GITHUB_TOKEN } = process.env;
+export const { VERCEL_URL, JWT_SECRET, GITHUB_TOKEN, CACHE_REPOSITORY } =
+  process.env;
 
 export const API_Host = isServer()
   ? VERCEL_URL
@@ -12,7 +13,8 @@ export const API_Host = isServer()
     : 'http://localhost:3000'
   : globalThis.location.origin;
 
-export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!;
+export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!,
+  CrawlerEmail = `crawler@idea2.app`;
 
 export const LARK_API_HOST = `${API_Host}/api/Lark/`;
 
