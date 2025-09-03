@@ -1,15 +1,16 @@
 import { fileTypeFromStream } from 'file-type';
+import { Middleware } from 'koa';
 import MIME from 'mime';
-import { createKoaRouter } from 'next-ssr-middleware';
+import { createKoaRouter, withKoaRouter } from 'next-ssr-middleware';
 import { Readable } from 'stream';
 
 import { CACHE_HOST } from '../../../../../models/configuration';
-import { withSafeKoaRouter } from '../../../core';
+import { safeAPI } from '../../../core';
 import { lark } from '../../core';
 
 const router = createKoaRouter(import.meta.url);
 
-router.all('/:id/:name', async context => {
+const downloader: Middleware = async context => {
   const { method, url, params, query } = context;
   const { id, name } = params;
 
@@ -47,6 +48,10 @@ router.all('/:id/:name', async context => {
   if (method === 'GET')
     // @ts-expect-error Web type compatibility
     context.body = Readable.fromWeb(stream2);
-});
+};
 
-export default withSafeKoaRouter(router);
+router
+  .head('/:id/:name', safeAPI, downloader)
+  .get('/:id/:name', safeAPI, downloader);
+
+export default withKoaRouter(router);
