@@ -9,7 +9,7 @@ import { KoaOption, withKoa } from 'next-ssr-middleware';
 import { ProxyAgent, setGlobalDispatcher } from 'undici';
 import { parse } from 'yaml';
 
-import { CrawlerEmail, JWT_SECRET } from '../../models/configuration';
+import { JWT_SECRET } from '../../models/configuration';
 
 const { HTTP_PROXY } = process.env;
 
@@ -24,9 +24,6 @@ export const parseJWT = JWT({
   cookie: 'token',
   passthrough: true,
 });
-
-if (JWT_SECRET)
-  console.info('🔑 [Crawler JWT]', sign({ email: CrawlerEmail }, JWT_SECRET));
 
 export const safeAPI: Middleware<any, any> = async (context: Context, next) => {
   try {

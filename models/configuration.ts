@@ -13,8 +13,7 @@ export const API_Host = isServer()
     : 'http://localhost:3000'
   : globalThis.location.origin;
 
-export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!,
-  CrawlerEmail = `crawler@idea2.app`;
+export const CACHE_HOST = process.env.NEXT_PUBLIC_CACHE_HOST!;
 
 export const LARK_API_HOST = `${API_Host}/api/Lark/`;
 

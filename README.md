@@ -111,9 +111,10 @@ pnpm container
 
 1. create & configure your own `CACHE_REPOSITORY` with https://github.com/idea2app/Web-file-cache
 2. set the `NEXT_PUBLIC_CACHE_HOST` environment variable to your CDN URL
-3. start your Lark-Next.js service, then copy the Crawler JWT from CLI console
-4. create an Automation Flow in your Lark BI Table to watch Attachment fields changing, then send an HTTP `POST` request to `https://your.next.js/api/file/crawler/task` with the Crawler JWT in the `Authorization` header
-5. your Lark file attachments will be cached in your CDN and loaded by your Lark-Next.js service automatically
+3. create an Automation Flow in your Lark BI Table to watch Attachment fields changing, then send an HTTP `POST` request to `https://api.github.com/repos/your-namespace/Web-file-cache/actions/workflows/crawler.yml/dispatches` with:
+   1. the [GitHub PAT][35] in the `Authorization` header
+   2. `https://your.next.js/api/Lark/file/attachment-id/file-name` as `url` body parameter
+4. your Lark file attachments will be cached in your CDN and loaded by your Lark-Next.js service automatically
 
 [0]: https://www.larksuite.com/
 [1]: https://react.dev/
@@ -150,3 +151,4 @@ pnpm container
 [32]: https://open.larksuite.com/document/server-docs/getting-started/api-access-token/app-access-token-development-guide#1f8b587c
 [33]: https://github.com/idea2app/Web-file-cache?tab=readme-ov-file
 [34]: https://nextjs.org/docs/deployment
+[35]: https://github.com/settings/tokens
