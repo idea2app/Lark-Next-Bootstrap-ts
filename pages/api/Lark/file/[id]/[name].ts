@@ -31,9 +31,12 @@ const downloader: Middleware = async context => {
   if (!ok) {
     context.status = status;
 
-    return (context.body = await response.json());
+    try {
+      return (context.body = await response.json());
+    } catch {
+      return (context.body = await response.text());
+    }
   }
-
   const mime = headers.get('Content-Type'),
     [stream1, stream2] = body!.tee();
 
