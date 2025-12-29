@@ -87,7 +87,7 @@ export default defineConfig(
       ],
       'arrow-body-style': ['error', 'as-needed'],
       'no-empty-pattern': 'warn',
-      'no-console': ['error', { allow: ['warn', 'error', 'info'] }],
+      'no-console': ['error', { allow: ['warn', 'error', 'info', 'table'] }],
       'no-restricted-syntax': [
         'error',
         {

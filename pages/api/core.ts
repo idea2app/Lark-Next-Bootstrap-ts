@@ -25,6 +25,12 @@ export const parseJWT = JWT({
   passthrough: true,
 });
 
+export const verifyJWT = JWT({ secret: JWT_SECRET!, cookie: 'token' });
+
+const RobotToken = sign({ id: 0, name: 'Robot' }, JWT_SECRET!);
+
+console.table({ RobotToken });
+
 export const safeAPI: Middleware<any, any> = async (context: Context, next) => {
   try {
     return await next();
@@ -95,19 +101,20 @@ export async function* pageListOf(
   const list = await readdir(prefix + path, { withFileTypes: true });
 
   for (const node of list) {
-    let { name, path } = node;
+    // eslint-disable-next-line prefer-const
+    let { name, parentPath } = node;
 
     if (name.startsWith('.')) continue;
 
     const isMDX = MDX_pattern.test(name);
 
     name = name.replace(MDX_pattern, '');
-    path = `${path}/${name}`.replace(new RegExp(`^${prefix}`), '');
+    const path = `${parentPath}/${name}`.replace(new RegExp(`^${prefix}`), '');
 
     if (node.isFile() && isMDX) {
       const article: ArticleMeta = { name, path, subs: [] };
 
-      const file = await readFile(`${node.path}/${node.name}`, 'utf-8');
+      const file = await readFile(`${parentPath}/${node.name}`, 'utf-8');
 
       const { meta } = splitFrontMatter(file);
 
