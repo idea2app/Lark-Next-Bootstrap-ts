@@ -63,7 +63,7 @@ importers:
         specifier: ^3.5.4
         version: 3.5.4
       idea-react:
-        specifier: 2.0.0-rc.13
+        specifier: ^2.0.0-rc.13
         version: 2.0.0-rc.13(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react-is@16.13.1)(react@19.2.4)(typescript@5.9.3)
       jsonwebtoken:
         specifier: ^9.0.3
