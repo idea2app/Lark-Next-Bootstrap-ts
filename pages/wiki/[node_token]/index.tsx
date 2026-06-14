@@ -4,10 +4,10 @@ import { FC } from 'react';
 import { Container } from 'react-bootstrap';
 import { Minute, Second } from 'web-utility';
 
-import { PageHead } from '../../components/Layout/PageHead';
-import documentStore from '../../models/Document';
-import wikiStore from '../../models/Wiki';
-import { lark } from '../api/Lark/core';
+import { PageHead } from '../../../components/Layout/PageHead';
+import documentStore from '../../../models/Document';
+import wikiStore from '../../../models/Wiki';
+import { lark } from '../../api/Lark/core';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   await lark.getAccessToken();
