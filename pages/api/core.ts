@@ -27,8 +27,9 @@ export const parseJWT = JWT({
 
 export const verifyJWT = JWT({ secret: JWT_SECRET!, cookie: 'token' });
 
-if (JWT_SECRET)
-  console.table({ RobotToken: sign({ id: 0, name: 'Robot' }, JWT_SECRET) });
+const RobotToken = sign({ id: 0, name: 'Robot' }, JWT_SECRET!);
+
+console.table({ RobotToken });
 
 export const safeAPI: Middleware<any, any> = async (context: Context, next) => {
   try {

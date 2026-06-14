@@ -11,15 +11,11 @@ import wikiStore from '../../models/Wiki';
 import { lark } from '../api/Lark/core';
 
 export const getStaticProps: GetStaticProps = async () => {
-  try {
-    await lark.getAccessToken();
+  await lark.getAccessToken();
 
-    const nodes = await wikiStore.getAll();
+  const nodes = await wikiStore.getAll();
 
-    return { props: { nodes } };
-  } catch {
-    return { props: { nodes: [] } };
-  }
+  return { props: { nodes } };
 };
 
 interface XWikiNode extends WikiNode {
@@ -50,9 +46,7 @@ const WikiIndexPage: FC<{ nodes: XWikiNode[] }> = observer(({ nodes }) => {
       <h1>{t('wiki')}</h1>
 
       {renderTree(
-        nodes.length
-          ? treeFrom(nodes, 'node_token', 'parent_node_token', 'children')
-          : undefined,
+        treeFrom(nodes, 'node_token', 'parent_node_token', 'children'),
       )}
     </Container>
   );
