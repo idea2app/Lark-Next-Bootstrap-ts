@@ -44,7 +44,6 @@ const toElementTree = (node: ReactNode): unknown => {
   const nodeType = node.type;
   const type = (() => {
     if (typeof nodeType === 'string') return nodeType;
-    if (typeof nodeType === 'symbol') return nodeType.toString();
     if (typeof nodeType !== 'function' && typeof nodeType !== 'object')
       return 'Component';
 
