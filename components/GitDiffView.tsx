@@ -1,0 +1,154 @@
+import '@git-diff-view/react/styles/diff-view.css';
+
+import { generateDiffFile } from '@git-diff-view/file';
+import { DiffModeEnum, DiffView } from '@git-diff-view/react';
+import { computed, observable } from 'mobx';
+import { observer } from 'mobx-react';
+import { ObservedComponent } from 'mobx-react-helper';
+import { Alert, Button, ButtonGroup, Form } from 'react-bootstrap';
+
+export interface TextFileData {
+  fileName: string;
+  content: string;
+  language?: string;
+}
+
+export type GitDiffViewProps = Record<'oldFile' | 'newFile', TextFileData>;
+
+@observer
+export class GitDiffView extends ObservedComponent<GitDiffViewProps> {
+  @observable
+  accessor diffViewMode = DiffModeEnum.Split;
+
+  @observable
+  accessor diffViewWrap = false;
+
+  @observable
+  accessor diffViewHighlight = true;
+
+  @observable
+  accessor expandAll = false;
+
+  @computed
+  get hasNoDiff() {
+    const { oldFile, newFile } = this.observedProps;
+
+    return oldFile.content === newFile.content;
+  }
+
+  @computed
+  get diffFile() {
+    const { oldFile, newFile } = this.observedProps;
+    const { diffViewMode, expandAll } = this;
+
+    const file = generateDiffFile(
+      oldFile.fileName,
+      oldFile.content,
+      newFile.fileName,
+      newFile.content,
+      oldFile.language || 'text',
+      newFile.language || 'text',
+    );
+
+    file.init();
+
+    if (diffViewMode & DiffModeEnum.Split) {
+      file.buildSplitDiffLines();
+    } else {
+      file.buildUnifiedDiffLines();
+    }
+
+    if (expandAll)
+      file.onAllExpand(diffViewMode & DiffModeEnum.Split ? 'split' : 'unified');
+
+    return file;
+  }
+
+  renderDiff() {
+    const {
+      diffViewMode,
+      diffViewWrap,
+      diffViewHighlight,
+      expandAll,
+      diffFile,
+    } = this;
+
+    return (
+      <>
+        <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
+          <ButtonGroup size="sm" aria-label="Diff mode">
+            <Button
+              variant={
+                diffViewMode & DiffModeEnum.Split
+                  ? 'primary'
+                  : 'outline-primary'
+              }
+              onClick={() => (this.diffViewMode = DiffModeEnum.Split)}
+            >
+              Split
+            </Button>
+            <Button
+              variant={
+                diffViewMode & DiffModeEnum.Split
+                  ? 'outline-primary'
+                  : 'primary'
+              }
+              onClick={() => (this.diffViewMode = DiffModeEnum.Unified)}
+            >
+              Unified
+            </Button>
+          </ButtonGroup>
+
+          <Form.Check
+            type="switch"
+            id="text-file-diff-wrap"
+            label="Wrap"
+            checked={diffViewWrap}
+            onChange={({ currentTarget }) =>
+              (this.diffViewWrap = currentTarget.checked)
+            }
+          />
+          <Form.Check
+            type="switch"
+            id="text-file-diff-highlight"
+            label="Highlight"
+            checked={diffViewHighlight}
+            onChange={({ currentTarget }) =>
+              (this.diffViewHighlight = currentTarget.checked)
+            }
+          />
+          <Form.Check
+            type="switch"
+            id="text-file-diff-expand-all"
+            label="Expand all"
+            checked={expandAll}
+            onChange={({ currentTarget }) =>
+              (this.expandAll = currentTarget.checked)
+            }
+          />
+        </div>
+
+        <DiffView
+          diffFile={diffFile}
+          diffViewMode={diffViewMode}
+          diffViewWrap={diffViewWrap}
+          diffViewHighlight={diffViewHighlight}
+        />
+      </>
+    );
+  }
+
+  render() {
+    const { hasNoDiff } = this;
+
+    return hasNoDiff ? (
+      <>
+        <Alert variant="danger">No diff found between the two files.</Alert>
+
+        <pre>{this.props.oldFile.content}</pre>
+      </>
+    ) : (
+      this.renderDiff()
+    );
+  }
+}

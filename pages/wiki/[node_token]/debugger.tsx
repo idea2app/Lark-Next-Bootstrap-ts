@@ -1,9 +1,9 @@
-import { CodeBlock } from 'idea-react';
 import { Block, DocumentBlockModel, renderBlocks, WikiNode } from 'mobx-lark';
 import { GetServerSideProps } from 'next';
 import { FC } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
+import { GitDiffView } from '../../../components/GitDiffView';
 import { PageHead } from '../../../components/Layout/PageHead';
 import documentStore from '../../../models/Document';
 import wikiStore from '../../../models/Wiki';
@@ -43,38 +43,33 @@ const WikiDocumentDebuggerPage: FC<WikiDocumentDebuggerPageProps> = ({
   rawBlocks,
   renderableBlocks,
 }) => {
+  const title = `${node.title} - Debugger`;
   const rendered = renderBlocks(renderableBlocks);
 
   return (
     <Container>
-      <PageHead title={`${node.title} - Debugger`} />
-
-      <Row>
-        <Col>
-          <h2>Raw Blocks</h2>
-
-          <CodeBlock language="json">
-            {JSON.stringify(rawBlocks, null, 2)}
-          </CodeBlock>
-        </Col>
-
-        <Col>
-          <h2>Renderable Blocks</h2>
-
-          <CodeBlock language="json">
-            {JSON.stringify(renderableBlocks, null, 2)}
-          </CodeBlock>
-        </Col>
-
-        <Col>
-          <h2>Component Tree</h2>
-
-          <CodeBlock language="tsx">{rendered}</CodeBlock>
-        </Col>
-      </Row>
+      <PageHead title={title} />
+      <h1>{title}</h1>
 
       <section>
-        <h2>Document</h2>
+        <h2>🔍Block diff</h2>
+
+        <GitDiffView
+          oldFile={{
+            fileName: 'raw-blocks.json',
+            content: JSON.stringify(rawBlocks, null, 2),
+            language: 'json',
+          }}
+          newFile={{
+            fileName: 'renderable-blocks.json',
+            content: JSON.stringify(renderableBlocks, null, 2),
+            language: 'json',
+          }}
+        />
+      </section>
+
+      <section>
+        <h2>📄Document</h2>
 
         {rendered}
       </section>

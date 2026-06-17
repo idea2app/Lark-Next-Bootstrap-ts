@@ -26,7 +26,6 @@ export default defineConfig(
       'simple-import-sort': simpleImportSortPlugin,
       '@typescript-eslint': tsEslint.plugin,
       react,
-      // @ts-expect-error https://github.com/vercel/next.js/discussions/84792
       '@next/next': nextPlugin,
     },
   },
