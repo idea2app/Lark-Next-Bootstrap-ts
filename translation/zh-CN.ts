@@ -43,6 +43,9 @@ export default {
   // MDX Article
   article: '文章',
   wiki: '知识库',
+  debugger: '调试器',
+  block_diff: '区块差异',
+  document: '文档',
 
   // Search
   keywords: '关键词',

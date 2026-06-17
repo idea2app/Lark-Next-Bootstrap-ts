@@ -45,6 +45,9 @@ export default {
   // MDX Article
   article: 'Article',
   wiki: 'Wiki',
+  debugger: 'Debugger',
+  block_diff: 'Block Diff',
+  document: 'Document',
 
   // Search
   keywords: 'Keywords',

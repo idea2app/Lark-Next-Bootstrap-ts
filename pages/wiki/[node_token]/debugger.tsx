@@ -1,11 +1,13 @@
 import { Block, DocumentBlockModel, renderBlocks, WikiNode } from 'mobx-lark';
+import { observer } from 'mobx-react';
 import { GetServerSideProps } from 'next';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import { Container } from 'react-bootstrap';
 
 import { GitDiffView } from '../../../components/GitDiffView';
 import { PageHead } from '../../../components/Layout/PageHead';
 import documentStore from '../../../models/Document';
+import { I18nContext } from '../../../models/Translation';
 import wikiStore from '../../../models/Wiki';
 import { lark } from '../../api/Lark/core';
 
@@ -38,43 +40,43 @@ interface WikiDocumentDebuggerPageProps {
   renderableBlocks: Block<any, any, any>[];
 }
 
-const WikiDocumentDebuggerPage: FC<WikiDocumentDebuggerPageProps> = ({
-  node,
-  rawBlocks,
-  renderableBlocks,
-}) => {
-  const title = `${node.title} - Debugger`;
-  const rendered = renderBlocks(renderableBlocks);
+const WikiDocumentDebuggerPage: FC<WikiDocumentDebuggerPageProps> = observer(
+  ({ node, rawBlocks, renderableBlocks }) => {
+    const { t } = useContext(I18nContext);
 
-  return (
-    <Container>
-      <PageHead title={title} />
-      <h1>{title}</h1>
+    const title = `${node.title} - ${t('debugger')}`;
+    const rendered = renderBlocks(renderableBlocks);
 
-      <section>
-        <h2>🔍Block diff</h2>
+    return (
+      <Container>
+        <PageHead title={title} />
+        <h1>{title}</h1>
 
-        <GitDiffView
-          oldFile={{
-            fileName: 'raw-blocks.json',
-            content: JSON.stringify(rawBlocks, null, 2),
-            language: 'json',
-          }}
-          newFile={{
-            fileName: 'renderable-blocks.json',
-            content: JSON.stringify(renderableBlocks, null, 2),
-            language: 'json',
-          }}
-        />
-      </section>
+        <section>
+          <h2>🔍{t('block_diff')}</h2>
 
-      <section>
-        <h2>📄Document</h2>
+          <GitDiffView
+            oldFile={{
+              fileName: 'raw-blocks.json',
+              content: JSON.stringify(rawBlocks, null, 2),
+              language: 'json',
+            }}
+            newFile={{
+              fileName: 'renderable-blocks.json',
+              content: JSON.stringify(renderableBlocks, null, 2),
+              language: 'json',
+            }}
+          />
+        </section>
 
-        {rendered}
-      </section>
-    </Container>
-  );
-};
+        <section>
+          <h2>📄{t('document')}</h2>
+
+          {rendered}
+        </section>
+      </Container>
+    );
+  },
+);
 
 export default WikiDocumentDebuggerPage;

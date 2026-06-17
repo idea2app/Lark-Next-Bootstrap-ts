@@ -43,6 +43,9 @@ export default {
   // MDX Article
   article: '文章',
   wiki: '知識庫',
+  debugger: '偵錯器',
+  block_diff: '區塊差異',
+  document: '文件',
 
   // Search
   keywords: '關鍵詞',
