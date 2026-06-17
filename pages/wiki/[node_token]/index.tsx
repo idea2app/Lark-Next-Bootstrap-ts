@@ -1,13 +1,14 @@
+import { Icon } from 'idea-react';
 import { Block, renderBlocks, WikiNode } from 'mobx-lark';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { FC } from 'react';
-import { Container } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { Minute, Second } from 'web-utility';
 
-import { PageHead } from '../../components/Layout/PageHead';
-import documentStore from '../../models/Document';
-import wikiStore from '../../models/Wiki';
-import { lark } from '../api/Lark/core';
+import { PageHead } from '../../../components/Layout/PageHead';
+import documentStore from '../../../models/Document';
+import wikiStore from '../../../models/Wiki';
+import { lark } from '../../api/Lark/core';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   await lark.getAccessToken();
@@ -49,6 +50,16 @@ interface WikiDocumentPageProps {
 const WikiDocumentPage: FC<WikiDocumentPageProps> = ({ node, blocks }) => (
   <Container>
     <PageHead title={node.title} />
+
+    <aside className="text-end">
+      <Button
+        variant="outline-primary"
+        size="sm"
+        href={`/wiki/${node.node_token}/debugger`}
+      >
+        <Icon name="tools" />
+      </Button>
+    </aside>
 
     {renderBlocks(blocks)}
   </Container>
