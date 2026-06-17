@@ -1,5 +1,3 @@
-import '@git-diff-view/react/styles/diff-view.css';
-
 import { generateDiffFile } from '@git-diff-view/file';
 import { DiffModeEnum, DiffView } from '@git-diff-view/react';
 import { Icon } from 'idea-react';
@@ -127,6 +125,10 @@ export class GitDiffView extends ObservedComponent<GitDiffViewProps> {
           />
         </div>
 
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/@git-diff-view/react/styles/diff-view.css"
+        />
         <DiffView
           diffFile={diffFile}
           diffViewMode={diffViewMode}
