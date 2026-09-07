@@ -6,9 +6,9 @@ import { UploadTargetType } from 'mobx-lark';
 import { createKoaRouter, withKoaRouter } from 'next-ssr-middleware';
 import { parse } from 'path';
 
+import { safeAPI } from '../../../../lib/API';
+import { lark } from '../../../../lib/Lark';
 import { LARK_API_HOST } from '../../../../models/configuration';
-import { safeAPI } from '../../core';
-import { lark } from '../core';
 
 export const config = { api: { bodyParser: false } };
 

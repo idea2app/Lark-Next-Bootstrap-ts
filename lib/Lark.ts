@@ -7,8 +7,10 @@ import {
   TableCellText,
 } from 'mobx-lark';
 import { oauth2Signer } from 'next-ssr-middleware';
+import { fetch } from 'undici';
+import { buildURLData } from 'web-utility';
 
-import { LarkAppMeta } from '../../../models/configuration';
+import { LarkAppMeta } from '../models/configuration';
 
 export const lark = new LarkApp(LarkAppMeta);
 
@@ -18,7 +20,7 @@ export const normalizeMarkdownArray = (list: TableCellText[]) =>
 export const proxyLark = async <T extends LarkData>({
   method,
   url,
-  headers: { host, authorization, 'content-length': _, ...headers },
+  headers: { host, authorization, ...headers },
   request,
 }: Context) => {
   await lark.getAccessToken();
@@ -46,3 +48,22 @@ export const larkOauth2 = oauth2Signer({
     return new LarkApp({ ...option, accessToken }).getUserMeta();
   },
 });
+
+type AttachmentMeta = Record<`${'table' | 'field' | 'record'}Id`, string>;
+
+export async function downloadLarkFile(
+  id: string,
+  { tableId, fieldId, recordId } = {} as AttachmentMeta,
+) {
+  const token = await lark.getAccessToken();
+
+  const extra = tableId && {
+    bitablePerm: { tableId, attachments: { [fieldId]: { [recordId]: [id] } } },
+  };
+
+  return fetch(
+    lark.client.baseURI +
+      `drive/v1/medias/${id}/download?${buildURLData({ extra })}`,
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+}
