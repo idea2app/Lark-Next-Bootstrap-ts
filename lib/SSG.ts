@@ -1,69 +1,35 @@
 import 'core-js/full/array/from-async';
 
-import { JsonWebTokenError, sign } from 'jsonwebtoken';
-import { Context, Middleware, ParameterizedContext } from 'koa';
-import JWT from 'koa-jwt';
-import { HTTPError } from 'koajax';
 import { DataObject } from 'mobx-restful';
-import { KoaOption, withKoa } from 'next-ssr-middleware';
-import { ProxyAgent, setGlobalDispatcher } from 'undici';
+import { GetStaticPaths, GetStaticProps, GetStaticPropsResult } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+import { Minute, Second } from 'web-utility';
 import { parse } from 'yaml';
 
-import { JWT_SECRET } from '../../models/configuration';
+import { CI } from '../models/configuration';
 
-const { HTTP_PROXY } = process.env;
+export const skipBuilding =
+  <Props extends DataObject, Params extends ParsedUrlQuery = ParsedUrlQuery>(
+    rawHandler: GetStaticProps<Props, Params>,
+    revalidate = Minute / Second,
+  ): GetStaticProps<Props, Params> =>
+  async context => {
+    const fallback: GetStaticPropsResult<any> = { notFound: true, revalidate };
 
-if (HTTP_PROXY) setGlobalDispatcher(new ProxyAgent(HTTP_PROXY));
+    if (CI) return fallback;
 
-export type JWTContext = ParameterizedContext<
-  { jwtOriginalError: JsonWebTokenError } | { user: DataObject }
->;
-
-export const parseJWT = JWT({
-  secret: JWT_SECRET!,
-  cookie: 'token',
-  passthrough: true,
-});
-
-export const verifyJWT = JWT({ secret: JWT_SECRET!, cookie: 'token' });
-
-const RobotToken = sign({ id: 0, name: 'Robot' }, JWT_SECRET!);
-
-console.table({ RobotToken });
-
-export const safeAPI: Middleware<any, any> = async (context: Context, next) => {
-  try {
-    return await next();
-  } catch (error) {
-    if (!(error instanceof HTTPError)) {
+    try {
+      return await rawHandler(context);
+    } catch (error) {
       console.error(error);
 
-      context.status = 400;
-
-      return (context.body = { message: (error as Error).message });
+      return fallback;
     }
-    const { message, response } = error;
-    let { body } = response;
-
-    context.status = response.status;
-    context.statusMessage = message;
-
-    if (body instanceof ArrayBuffer)
-      try {
-        body = new TextDecoder().decode(new Uint8Array(body));
-
-        body = JSON.parse(body);
-      } catch {
-        //
-      }
-    console.error(JSON.stringify(body, null, 2));
-
-    context.body = body;
-  }
-};
-
-export const withSafeKoa = <S, C>(...middlewares: Middleware<S, C>[]) =>
-  withKoa<S, C>({} as KoaOption, safeAPI, ...middlewares);
+  };
+export const skipBuildingAll: GetStaticPaths = async () => ({
+  paths: [],
+  fallback: 'blocking',
+});
 
 export interface ArticleMeta {
   name: string;

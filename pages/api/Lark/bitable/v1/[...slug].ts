@@ -1,5 +1,5 @@
-import { withSafeKoa } from '../../../core';
-import { proxyLarkAll } from '../../core';
+import { withSafeKoa } from '../../../../../lib/API';
+import { proxyLarkAll } from '../../../../../lib/Lark';
 
 export const config = { api: { bodyParser: false } };
 
