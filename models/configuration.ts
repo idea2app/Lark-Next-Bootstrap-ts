@@ -4,7 +4,7 @@ export const Name = process.env.NEXT_PUBLIC_SITE_NAME,
   Summary = process.env.NEXT_PUBLIC_SITE_SUMMARY,
   DefaultImage = process.env.NEXT_PUBLIC_LOGO!;
 
-export const { VERCEL_URL, JWT_SECRET, GITHUB_TOKEN, CACHE_REPOSITORY } =
+export const { CI, VERCEL_URL, JWT_SECRET, GITHUB_TOKEN, CACHE_REPOSITORY } =
   process.env;
 
 export const API_Host = isServer()

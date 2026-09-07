@@ -1,3 +1,5 @@
+import '@khmyznikov/pwa-install';
+
 import Document, {
   DocumentContext,
   Head,
@@ -43,6 +45,7 @@ export default class CustomDocument extends Document<CustomDocumentProps> {
         </Head>
 
         <body>
+          <pwa-install />
           <Main />
           <NextScript />
         </body>
