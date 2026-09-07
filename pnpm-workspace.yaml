@@ -1,8 +1,10 @@
 packages:
   - .
 autoInstallPeers: false
-overrides:
-  next: $next
+minimumReleaseAge: 0
+
+patchedDependencies:
+  'next@16.3.4': 'patches/next@16.3.4.patch'
 allowBuilds:
   '@sentry/cli': true
   core-js: true
