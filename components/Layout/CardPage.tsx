@@ -1,5 +1,5 @@
+import { Col, PageItem, PageLink, Pagination, Row } from 'idea-react';
 import { ComponentClass, FC } from 'react';
-import { Col, Pagination, Row } from 'react-bootstrap';
 
 import { SearchPageMeta } from '../../models/System';
 
@@ -27,14 +27,24 @@ export const CardPage: FC<CardPageProps> = ({
     </Row>
 
     <Pagination className="justify-content-center" size="lg">
-      <Pagination.Prev
-        href={pageLinkOf(pageIndex - 1)}
-        disabled={pageIndex === 1}
-      />
-      <Pagination.Next
-        href={pageLinkOf(pageIndex + 1)}
-        disabled={pageIndex === pageCount}
-      />
+      <PageItem disabled={pageIndex === 1}>
+        <PageLink
+          href={pageLinkOf(pageIndex - 1)}
+          aria-label="Previous page"
+          tabIndex={pageIndex === 1 ? -1 : undefined}
+        >
+          &lsaquo;
+        </PageLink>
+      </PageItem>
+      <PageItem disabled={pageIndex === pageCount}>
+        <PageLink
+          href={pageLinkOf(pageIndex + 1)}
+          aria-label="Next page"
+          tabIndex={pageIndex === pageCount ? -1 : undefined}
+        >
+          &rsaquo;
+        </PageLink>
+      </PageItem>
     </Pagination>
   </>
 );

@@ -49,11 +49,10 @@ export const framework = [
     ],
   },
   {
-    title: 'React Bootstrap',
-    summary: 'The most popular front-end framework Rebuilt for React.',
-    logo: 'reactbootstrap.svg',
-    link: 'https://react-bootstrap.github.io/',
-    repository: 'https://github.com/react-bootstrap/react-bootstrap',
+    title: 'Idea React',
+    summary: 'A React component suite built on Bootstrap 6.',
+    link: 'https://idea-react.pages.dev/',
+    repository: 'https://github.com/idea2app/Idea-React',
     languages: ['TypeScript', 'JavaScript'],
     tags: [
       'react',
