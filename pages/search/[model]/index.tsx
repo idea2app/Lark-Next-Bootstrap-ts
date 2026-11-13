@@ -1,3 +1,4 @@
+import { Container, Nav, NavItem, NavLink } from 'idea-react';
 import { observer } from 'mobx-react';
 import {
   cache,
@@ -7,7 +8,6 @@ import {
   router,
 } from 'next-ssr-middleware';
 import { FC, useContext } from 'react';
-import { Container, Nav } from 'react-bootstrap';
 import { buildURLData } from 'web-utility';
 
 import { CardPage, CardPageProps } from '../../../components/Layout/CardPage';
@@ -70,16 +70,16 @@ const SearchModelPage: FC<SearchModelPageProps> = observer(
             action={`/search/${model}`}
             defaultValue={keywords}
           />
-          <Nav variant="pills" defaultActiveKey={model}>
+          <Nav variant="pills">
             {Object.entries(nameMap).map(([key, value]) => (
-              <Nav.Item key={key}>
-                <Nav.Link
-                  eventKey={key}
+              <NavItem key={key}>
+                <NavLink
+                  active={key === model}
                   href={`/search/${key}?keywords=${keywords}`}
                 >
                   {value}
-                </Nav.Link>
-              </Nav.Item>
+                </NavLink>
+              </NavItem>
             ))}
           </Nav>
         </header>

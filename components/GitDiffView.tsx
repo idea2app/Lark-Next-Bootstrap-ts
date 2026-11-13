@@ -1,10 +1,9 @@
 import { generateDiffFile } from '@git-diff-view/file';
 import { DiffModeEnum, DiffView } from '@git-diff-view/react';
-import { Icon } from 'idea-react';
+import { Alert, Button, ButtonGroup, FormSwitch, Icon } from 'idea-react';
 import { computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { ObservedComponent } from 'mobx-react-helper';
-import { Alert, Button, ButtonGroup, Form } from 'react-bootstrap';
 
 export interface TextFileData {
   fileName: string;
@@ -75,54 +74,51 @@ export class GitDiffView extends ObservedComponent<GitDiffViewProps> {
         <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
           <ButtonGroup size="sm" aria-label="Diff mode">
             <Button
-              variant={
-                diffViewMode & DiffModeEnum.Split
-                  ? 'primary'
-                  : 'outline-primary'
-              }
+              variant={diffViewMode & DiffModeEnum.Split ? 'solid' : 'outline'}
+              theme="primary"
               onClick={() => (this.diffViewMode = DiffModeEnum.Split)}
             >
               <Icon name="layout-split" />
             </Button>
             <Button
-              variant={
-                diffViewMode & DiffModeEnum.Split
-                  ? 'outline-primary'
-                  : 'primary'
-              }
+              variant={diffViewMode & DiffModeEnum.Split ? 'outline' : 'solid'}
+              theme="primary"
               onClick={() => (this.diffViewMode = DiffModeEnum.Unified)}
             >
               <Icon name="list-ul" />
             </Button>
           </ButtonGroup>
 
-          <Form.Check
-            type="switch"
-            id="git-diff-wrap"
-            label={<Icon name="text-wrap" />}
+          <FormSwitch
+            inputId="git-diff-wrap"
             checked={diffViewWrap}
             onChange={({ currentTarget }) =>
               (this.diffViewWrap = currentTarget.checked)
             }
-          />
-          <Form.Check
-            type="switch"
-            id="git-diff-highlight"
-            label={<Icon name="highlighter" />}
+          >
+            <Icon name="text-wrap" />
+            <span className="visually-hidden">Wrap lines</span>
+          </FormSwitch>
+          <FormSwitch
+            inputId="git-diff-highlight"
             checked={diffViewHighlight}
             onChange={({ currentTarget }) =>
               (this.diffViewHighlight = currentTarget.checked)
             }
-          />
-          <Form.Check
-            type="switch"
-            id="git-diff-expand-all"
-            label={<Icon name="arrows-expand" />}
+          >
+            <Icon name="highlighter" />
+            <span className="visually-hidden">Highlight changes</span>
+          </FormSwitch>
+          <FormSwitch
+            inputId="git-diff-expand-all"
             checked={expandAll}
             onChange={({ currentTarget }) =>
               (this.expandAll = currentTarget.checked)
             }
-          />
+          >
+            <Icon name="arrows-expand" />
+            <span className="visually-hidden">Expand all</span>
+          </FormSwitch>
         </div>
 
         <link
@@ -144,7 +140,7 @@ export class GitDiffView extends ObservedComponent<GitDiffViewProps> {
 
     return hasNoDiff ? (
       <>
-        <Alert variant="danger">No diff found between the two files.</Alert>
+        <Alert theme="danger">No diff found between the two files.</Alert>
 
         <pre>{props.oldFile.content}</pre>
       </>

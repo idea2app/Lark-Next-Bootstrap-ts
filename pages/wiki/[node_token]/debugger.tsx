@@ -1,8 +1,8 @@
+import { Container } from 'idea-react';
 import { Block, DocumentBlockModel, renderBlocks, WikiNode } from 'mobx-lark';
 import { observer } from 'mobx-react';
 import { GetServerSideProps } from 'next';
 import { FC, useContext } from 'react';
-import { Container } from 'react-bootstrap';
 
 import { GitDiffView } from '../../../components/GitDiffView';
 import { PageHead } from '../../../components/Layout/PageHead';

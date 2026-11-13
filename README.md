@@ -11,7 +11,7 @@
 
 - Language: [TypeScript v6][2] + [MDX v3][10]
 - Component engine: [Next.js v16][3]
-- Component suite: [Bootstrap v5][4]
+- Component suite: [Bootstrap v6][4]
 - PWA framework: [Serwist v9][5]
 - State management: [MobX v7][11]
 - API router: [Koa v3][12]

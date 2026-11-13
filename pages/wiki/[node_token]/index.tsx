@@ -1,8 +1,7 @@
-import { Icon } from 'idea-react';
+import { Button, Container, Icon } from 'idea-react';
 import { Block, renderBlocks, WikiNode } from 'mobx-lark';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { FC } from 'react';
-import { Button, Container } from 'react-bootstrap';
 import { Minute, Second } from 'web-utility';
 
 import { PageHead } from '../../../components/Layout/PageHead';
@@ -53,7 +52,8 @@ const WikiDocumentPage: FC<WikiDocumentPageProps> = ({ node, blocks }) => (
 
     <aside className="text-end">
       <Button
-        variant="outline-primary"
+        variant="outline"
+        theme="primary"
         size="sm"
         href={`/wiki/${node.node_token}/debugger`}
       >

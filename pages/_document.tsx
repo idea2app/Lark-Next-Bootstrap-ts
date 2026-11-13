@@ -1,5 +1,3 @@
-import '@khmyznikov/pwa-install';
-
 import Document, {
   DocumentContext,
   Head,
@@ -36,20 +34,23 @@ export default class CustomDocument extends Document<CustomDocumentProps> {
 
           <link
             rel="stylesheet"
-            href="https://bootswatch.com/5/quartz/bootstrap.min.css"
+            href="https://unpkg.com/bootstrap@6.0.0-alpha.1/dist/css/bootstrap.min.css"
           />
           <link
             rel="stylesheet"
-            href="https://unpkg.com/bootstrap-icons@1.13.1/font/bootstrap-icons.css"
+            href="https://unpkg.com/bootstrap-icons@1.13.2/font/bootstrap-icons.css"
           />
           <link
             rel="stylesheet"
-            href="https://unpkg.com/mobx-restful-table@2.7.4/dist/index.css"
+            href="https://unpkg.com/idea-react@3.0.0-rc.3/dist/style.css"
+          />
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/mobx-restful-table@3.0.0-rc.3/dist/index.css"
           />
         </Head>
 
         <body>
-          <pwa-install />
           <Main />
           <NextScript />
         </body>

@@ -1,8 +1,8 @@
+import { Container } from 'idea-react';
 import { WikiNode } from 'mobx-lark';
 import { observer } from 'mobx-react';
 import { GetStaticProps } from 'next';
 import { FC, useContext } from 'react';
-import { Container } from 'react-bootstrap';
 import { treeFrom } from 'web-utility';
 
 import { PageHead } from '../../components/Layout/PageHead';
